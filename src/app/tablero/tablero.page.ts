@@ -14,6 +14,10 @@ export class TableroPage implements OnInit, OnDestroy {
   isOnline: boolean = true;
   mostrarModalOffline = false;
 
+  mensajeNotificacion: string = '';
+  mostrarAlertaPantalla: boolean = false;
+  private timeoutAlerta: any;
+
   listaTareas = [
     { id: '#01', titulo: 'Implementar autenticación', estado: 'enProceso', prioridad: 'ALTA', avatar: 'ST', responsable: 'Stevenson Tavárez' },
     { id: '#02', titulo: 'Componentes de navegación', estado: 'enProceso', prioridad: 'Media', avatar: 'JP', responsable: 'José Pérez' },
@@ -58,8 +62,36 @@ export class TableroPage implements OnInit, OnDestroy {
   }
 
   actualizarEstado(conectado: boolean) {
+    const estadoAnterior = this.isOnline;
     this.isOnline = conectado;
+
+    if (!conectado) {
+      this.mostrarModalOffline = true;
+    } else {
+      this.mostrarModalOffline = false;
+      if (!estadoAnterior && conectado) {
+        this.mostrarMensaje('Se ha recuperado la conexión');
+      }
+    }
+
     this.cdr.detectChanges();
+  }
+
+  private mostrarMensaje(texto: string) {
+    if (this.timeoutAlerta) {
+      clearTimeout(this.timeoutAlerta);
+    }
+
+    this.mensajeNotificacion = texto;
+    this.mostrarAlertaPantalla = true;
+    this.cdr.detectChanges();
+
+    this.timeoutAlerta = setTimeout(() => {
+      this.ngZone.run(() => {
+        this.mostrarAlertaPantalla = false;
+        this.cdr.detectChanges();
+      });
+    }, 4000);
   }
 
   get tareasFiltradas() {

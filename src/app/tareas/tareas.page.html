@@ -16,7 +16,12 @@
       </div>
 
       <ion-content [fullscreen]="true" style="--background: #f4f4f4; flex: 1; position: relative;">
+        
         <div style="padding: 20px;">
+
+          <div *ngIf="mostrarAlertaPantalla" [style.background-color]="tipoNotificacion === 'success' ? '#d4edda' : '#fff3cd'" [style.color]="tipoNotificacion === 'success' ? '#155724' : '#856404'" style="border: 2px solid #1a1a1a; border-radius: 10px; padding: 12px; font-size: 12px; font-weight: bold; box-shadow: 3px 3px 0px #1a1a1a; text-align: center; margin-bottom: 15px;">
+            {{ mensajeNotificacion }}
+          </div>
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <h1 style="font-size: 26px; font-weight: 500; font-style: italic; color: black; margin: 0;">Mis Tareas</h1>
@@ -56,10 +61,23 @@
 
           <div style="font-size: 13px; font-weight: 500; margin-bottom: 14px; color: black;">Lista de tareas</div>
 
-          <div style="display: flex; flex-direction: column; gap: 12px; background: white; border: 2px solid #1a1a1a; border-radius: 14px; padding: 16px; box-shadow: 4px 4px 0px #1a1a1a;">
+          <div style="display: flex; flex-direction: column; gap: 12px; background: white; border: 2px solid #1a1a1a; border-radius: 14px; padding: 16px; box-shadow: 4px 4px 0px #1a1a1a; margin-bottom: 16px;">
             <label *ngFor="let item of tareasPersonales" [style.text-decoration]="item.completada ? 'line-through' : 'none'" [style.color]="item.completada ? '#888' : 'black'" style="font-size: 13px; font-weight: normal; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: color 0.2s ease;">
               <input type="checkbox" [(ngModel)]="item.completada" style="accent-color: black; width: 16px; height: 16px; cursor: pointer;"> {{ item.texto }}
             </label>
+          </div>
+
+          <div (click)="guardarDatos()" style="background: #1a1a1a; color: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 12px; text-align: center; font-weight: 700; box-shadow: 4px 4px 0px #666; cursor: pointer; margin-bottom: 20px;">
+            Guardar datos
+          </div>
+
+          <!-- Modal de alerta offline adaptado dentro de la pantalla de Tareas -->
+          <div *ngIf="mostrarModalOffline" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 999; padding: 20px;">
+            <div style="background: white; border: 3px solid #1a1a1a; border-radius: 16px; padding: 20px; width: 100%; max-width: 260px; box-shadow: 5px 5px 0px #1a1a1a; text-align: center;">
+              <h2 style="font-size: 14px; font-weight: 800; color: black; margin-bottom: 10px;">ESTÁS DESCONECTADO</h2>
+              <p style="font-size: 11px; color: #555; margin-bottom: 16px; line-height: 1.4;">Tus tareas se guardarán localmente y se sincronizarán al recuperar la conexión.</p>
+              <button (click)="mostrarModalOffline = false" style="background: #1a1a1a; color: white; border: 2px solid #1a1a1a; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: 2px 2px 0px #666;">ENTENDIDO</button>
+            </div>
           </div>
 
         </div>

@@ -2,12 +2,23 @@
  * Facilitador, todo esto fue implementado en las páginas principales (Home, Tablero, Tareas)
  * Utilizando @capacitor/network para detección nativa en tiempo real.
  */
+import { Injectable, NgZone } from '@angular/core';
 import { Network, ConnectionStatus } from '@capacitor/network';
-import { NgZone, ChangeDetectorRef } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
-// Está es la lógica de inicialización en el ngOnInit() de las páginas:
-async ngOnInit() {
-  try {
+@Injectable({
+  providedIn: 'root'
+})
+export class NetworkService {
+  private onlineSubject = new BehaviorSubject<boolean>(true);
+  public isOnline$ = this.onlineSubject.asObservable();
+  public isOnline = true;
+
+  constructor(private ngZone: NgZone) {
+    this.initNetwork();
+  }
+
+  async initNetwork() {
     const status = await Network.getStatus();
     this.actualizarEstado(status.connected);
 
@@ -16,18 +27,10 @@ async ngOnInit() {
         this.actualizarEstado(status.connected);
       });
     });
-  } catch (error) {
-    this.actualizarEstado(navigator.onLine);
   }
 
-  window.addEventListener('online', this.onlineListenerHandler);
-  window.addEventListener('offline', this.offlineListenerHandler);
-}
-
-actualizarEstado(conectado: boolean) {
-  this.isOnline = conectado;
-  if (!conectado) {
-    this.mostrarModalOffline = true;
+  private actualizarEstado(conectado: boolean) {
+    this.isOnline = conectado;
+    this.onlineSubject.next(conectado);
   }
-  this.cdr.detectChanges();
 }
