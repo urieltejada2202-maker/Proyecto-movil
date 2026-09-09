@@ -1,0 +1,1 @@
+// Junior, por favor pega aquí la lógica del servicio de guardado local para el modo offline.
