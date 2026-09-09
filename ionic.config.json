@@ -1,0 +1,7 @@
+{
+  "name": "ProjectWizard",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
