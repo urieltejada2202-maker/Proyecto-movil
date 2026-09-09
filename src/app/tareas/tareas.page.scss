@@ -1,0 +1,35 @@
+.menu-btn {
+  background: white;
+  border: 2px solid #1a1a1a;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 700;
+  color: black;
+  box-shadow: 3px 3px 0px #1a1a1a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: #1a1a1a;
+    color: white;
+  }
+}
+
+.menu-btn-cerrar {
+  width: 100%;
+  margin-top: 20px;
+  background: #ff6b6b;
+  color: white;
+  border: 2px solid #1a1a1a;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px #1a1a1a;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: #fa5252;
+  }
+}

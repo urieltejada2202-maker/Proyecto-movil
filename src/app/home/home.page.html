@@ -1,20 +1,130 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<div style="background-color: #1a1a1a; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;">
+  
+  <div style="position: relative;">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <div style="position: absolute; top: 125px; left: -5px; width: 4px; height: 26px; background: #b0b0b0; border-radius: 2px 0 0 2px; z-index: 5;"></div>
+    <div style="position: absolute; top: 168px; left: -5px; width: 4px; height: 42px; background: #b0b0b0; border-radius: 2px 0 0 2px; z-index: 5;"></div>
+    <div style="position: absolute; top: 220px; left: -5px; width: 4px; height: 42px; background: #b0b0b0; border-radius: 2px 0 0 2px; z-index: 5;"></div>
+    <div style="position: absolute; top: 225px; right: -5px; width: 4px; height: 55px; background: #b0b0b0; border-radius: 0 2px 2px 0; z-index: 5;"></div>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <div style="width: 380px; height: 790px; background: #f4f4f4; border: 10px solid #333333; border-radius: 80px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.6); overflow: hidden; display: flex; flex-direction: column;">
+      
+      <div style="background: #f4f4f4; height: 48px; display: flex; justify-content: space-between; align-items: center; padding: 0 28px; font-size: 13px; font-weight: 600; color: black; z-index: 10; flex-shrink: 0; position: relative;">
+        <span>9:41 AM</span>
+        <div style="width: 115px; height: 26px; background: #1a1a1a; border-radius: 14px; position: absolute; left: 50%; transform: translateX(-50%); top: 10px;"></div>
+        <span></span>
+      </div>
+
+      <ion-content [fullscreen]="true" style="--background: #f4f4f4; flex: 1; position: relative;">
+        <div style="padding: 20px;">
+          <div class="neo-header">ProjectWizard</div>
+
+          <div class="offline-banner" *ngIf="!isOnline">
+            ● Modo Offline: Sin conexión a internet
+          </div>
+
+          <div class="neo-card">
+            <div class="subtitle">Proyecto Activo</div>
+            <div class="title">App Móvil v1.0</div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
+              <span class="subtitle" style="margin: 0;">Progreso del equipo</span>
+              <span style="font-size: 12px; font-weight: bold; color: black;">70%</span>
+            </div>
+            
+            <div class="neo-progress-bar"><div class="fill" style="width: 70%;"></div></div>
+            <div class="progress-text">
+              <span>12 Completadas</span>
+              <span>20 en total</span>
+            </div>
+          </div>
+
+          <div class="team-section">
+            <div class="team-title">Equipo - 5 Miembros</div>
+
+            <div class="team-member">
+              <div class="avatar">UT</div>
+              <div class="info">
+                <div class="name">Uriel Tejada</div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                  <span class="role">UX/UI - ID: 100074352</span>
+                  <span style="font-size: 10px; font-weight: bold; color: black; margin-bottom: 5px;">91%</span>
+                </div>
+                <div class="neo-progress-bar"><div class="fill" style="width: 91%;"></div></div>
+              </div>
+            </div>
+            
+            <div class="team-member">
+              <div class="avatar">JG</div>
+              <div class="info">
+                <div class="name">Junior Gómez</div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                  <span class="role">Manager - ID: 100077484</span>
+                  <span style="font-size: 10px; font-weight: bold; color: black; margin-bottom: 5px;">60%</span>
+                </div>
+                <div class="neo-progress-bar"><div class="fill" style="width: 60%;"></div></div>
+              </div>
+            </div>
+
+            <div class="team-member">
+              <div class="avatar">JP</div>
+              <div class="info">
+                <div class="name">José Pérez</div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                  <span class="role">Frontend - ID: 100016540</span>
+                  <span style="font-size: 10px; font-weight: bold; color: black; margin-bottom: 5px;">45%</span>
+                </div>
+                <div class="neo-progress-bar"><div class="fill" style="width: 45%;"></div></div>
+              </div>
+            </div>
+
+            <div class="team-member">
+              <div class="avatar">ST</div>
+              <div class="info">
+                <div class="name">Stevenson Tavárez</div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                  <span class="role">Backend - ID: 100035630</span>
+                  <span style="font-size: 10px; font-weight: bold; color: black; margin-bottom: 5px;">91%</span>
+                </div>
+                <div class="neo-progress-bar"><div class="fill" style="width: 91%;"></div></div>
+              </div>
+            </div>
+
+            <div class="team-member">
+              <div class="avatar">DP</div>
+              <div class="info">
+                <div class="name">Darlenny Pimentel</div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                  <span class="role">QA - ID: 100070231</span>
+                  <span style="font-size: 10px; font-weight: bold; color: black; margin-bottom: 5px;">75%</span>
+                </div>
+                <div class="neo-progress-bar"><div class="fill" style="width: 75%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <ion-router-link routerLink="/tablero" style="text-decoration: none;">
+            <div class="neo-button" style="text-align: center;">Ver Tablero →</div>
+          </ion-router-link>
+
+          <ion-modal [isOpen]="mostrarModalOffline" backdropDismiss="false" style="--background: transparent;">
+            <ng-template>
+              <div class="modal-overlay">
+                <div class="neo-modal-box">
+                  <h2>ESTÁS DESCONECTADO</h2>
+                  <p>Tus tareas se guardarán localmente y se sincronizarán al recuperar la conexión.</p>
+                  <button class="modal-btn" (click)="cerrarModal()">ENTENDIDO</button>
+                </div>
+              </div>
+            </ng-template>
+          </ion-modal>
+        </div>
+      </ion-content>
+
+      <div style="background: #f4f4f4; height: 25px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; z-index: 10;">
+        <div style="width: 130px; height: 5px; background: #1a1a1a; border-radius: 3px;"></div>
+      </div>
+
+    </div>
   </div>
-</ion-content>
+</div>

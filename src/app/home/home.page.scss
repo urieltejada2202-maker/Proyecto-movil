@@ -1,27 +1,160 @@
-#container {
+ion-content {
+  --background: #fafafa;
+}
+
+.neo-header {
+  font-size: 24px;
+  font-weight: 900;
+  font-style: italic;
+  padding: 20px 20px 10px 20px;
+  color: black;
+}
+
+.offline-banner {
+  background: white;
+  border: 2px solid #b3261e;
+  border-radius: 12px;
+  padding: 10px 15px;
+  margin: 15px 20px;
+  font-size: 12px;
+  font-weight: 700;
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  color: #b3261e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background-color: #b3261e;
+    border-radius: 50%;
+  }
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.neo-card {
+  background: #eaeaea;
+  border: 2px solid #1a1a1a;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px;
+  
+  .subtitle { font-size: 12px; font-weight: bold; color: #555; }
+  .title { font-size: 22px; font-weight: 900; font-style: italic; color: black; margin: 5px 0 20px 0; }
 }
 
-#container p {
+.neo-progress-bar {
+  height: 8px;
+  background: white;
+  border: 2px solid #1a1a1a;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  
+  .fill { height: 100%; background: #1a1a1a; }
+}
+
+.progress-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: bold;
+  color: #555;
+}
+
+.team-section {
+  margin: 20px;
+  
+  .team-title { font-weight: bold; margin-bottom: 15px; color: black; font-size: 14px; }
+  
+  .team-member {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    
+    .avatar {
+      width: 45px;
+      height: 45px;
+      border: 2px solid #1a1a1a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 15px;
+      margin-right: 15px;
+      background: white;
+      color: black;
+    }
+    
+    .info {
+      flex: 1;
+      .name { font-weight: 600; font-size: 14px; color: black; }
+      .role { font-size: 11px; font-weight: 600; color: #555; }
+    }
+  }
+}
+
+.neo-button {
+  background: #1a1a1a;
+  color: white;
+  margin: 30px 20px;
+  padding: 15px;
+  border-radius: 25px;
+  text-align: center;
+  font-weight: bold;
   font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
 }
 
-#container a {
-  text-decoration: none;
+.modal-transparente {
+  --background: transparent;
+}
+
+.modal-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  padding: 20px;
+}
+
+.neo-modal-box {
+  background: white;
+  border: 2px solid #1a1a1a;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 5px 5px 0px #1a1a1a;
+  width: 90%;
+  border-radius: 12px;
+  
+  h2 { 
+    font-weight: 800; 
+    font-size: 18px; 
+    margin-bottom: 15px; 
+    padding-bottom: 15px; 
+    border-bottom: 3.0px solid #020202; 
+    color: #000000; 
+  }
+  
+  p { 
+    font-size: 14px; 
+    margin-bottom: 25px; 
+    font-weight: 500;
+    color: #444;
+    line-height: 1.5;
+  }
+  
+  .modal-btn {
+    border: 2px solid #1a1a1a;
+    background: white;
+    font-weight: bold;
+    padding: 12px 0;
+    width: 100%;
+    font-size: 14px;
+    color: #1a1a1a;
+    border-radius: 8px;
+  }
 }

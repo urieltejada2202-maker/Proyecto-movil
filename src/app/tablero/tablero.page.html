@@ -1,0 +1,86 @@
+<div style="background-color: #1a1a1a; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;">
+  
+  <div style="position: relative;">
+
+    <div style="position: absolute; top: 125px; left: -5px; width: 4px; height: 26px; background: #b0b0b0; border-radius: 2px 0 0 2px; z-index: 5;"></div>
+    <div style="position: absolute; top: 168px; left: -5px; width: 4px; height: 42px; background: #b0b0b0; border-radius: 2px 0 0 2px; z-index: 5;"></div>
+    <div style="position: absolute; top: 220px; left: -5px; width: 4px; height: 42px; background: #b0b0b0; border-radius: 2px 0 0 2px; z-index: 5;"></div>
+    <div style="position: absolute; top: 225px; right: -5px; width: 4px; height: 55px; background: #b0b0b0; border-radius: 0 2px 2px 0; z-index: 5;"></div>
+
+    <div style="width: 380px; height: 790px; background: #f4f4f4; border: 10px solid #333333; border-radius: 80px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.6); overflow: hidden; display: flex; flex-direction: column;">
+      
+      <div style="background: #f4f4f4; height: 48px; display: flex; justify-content: space-between; align-items: center; padding: 0 28px; font-size: 13px; font-weight: 600; color: black; z-index: 10; flex-shrink: 0; position: relative;">
+        <span>9:41 AM</span>
+        <div style="width: 115px; height: 26px; background: #1a1a1a; border-radius: 14px; position: absolute; left: 50%; transform: translateX(-50%); top: 10px;"></div>
+        <span></span>
+      </div>
+
+      <ion-content [fullscreen]="true" style="--background: #f4f4f4; flex: 1; position: relative;">
+        <div style="padding: 20px;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h1 style="font-size: 26px; font-weight: 500; font-style: italic; color: black; margin: 0;">Tablero</h1>
+            
+            <div (click)="abrirMenu()" style="width: 38px; height: 38px; border: 2px solid #1a1a1a; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: white; box-shadow: 2px 2px 0px #1a1a1a; cursor: pointer;">
+              <div style="display: flex; flex-direction: column; gap: 4px;">
+                <div style="width: 18px; height: 2px; background: black;"></div>
+                <div style="width: 18px; height: 2px; background: black;"></div>
+                <div style="width: 18px; height: 2px; background: black;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="offline-banner" *ngIf="!isOnline">
+            ● Modo Offline: Sin conexión a internet
+          </div>
+
+          <div style="display: flex; background: white; border-radius: 25px; padding: 5px; margin-bottom: 20px; border: 2px solid #1a1a1a; box-shadow: 3px 3px 0px #1a1a1a; cursor: pointer;">
+            <div (click)="cambiarFiltro('porHacer')" [style.background]="filtroActual === 'porHacer' ? '#1a1a1a' : 'white'" [style.color]="filtroActual === 'porHacer' ? 'white' : 'black'" [style.font-weight]="filtroActual === 'porHacer' ? '500' : 'normal'" style="flex: 1; text-align: center; padding: 10px; font-size: 12px; border-radius: 20px; transition: all 0.2s ease;">Por hacer</div>
+            <div (click)="cambiarFiltro('enProceso')" [style.background]="filtroActual === 'enProceso' ? '#1a1a1a' : 'white'" [style.color]="filtroActual === 'enProceso' ? 'white' : 'black'" [style.font-weight]="filtroActual === 'enProceso' ? '500' : 'normal'" style="flex: 1; text-align: center; padding: 10px; font-size: 12px; border-radius: 20px; transition: all 0.2s ease;">En proceso</div>
+            <div (click)="cambiarFiltro('hecho')" [style.background]="filtroActual === 'hecho' ? '#1a1a1a' : 'white'" [style.color]="filtroActual === 'hecho' ? 'white' : 'black'" [style.font-weight]="filtroActual === 'hecho' ? '500' : 'normal'" style="flex: 1; text-align: center; padding: 10px; font-size: 12px; border-radius: 20px; transition: all 0.2s ease;">Hecho</div>
+          </div>
+
+          <div style="font-size: 13px; font-weight: normal; margin-bottom: 14px; color: #1a1a1a;">
+            {{ tareasFiltradas.length }} Tareas • {{ filtroActual === 'porHacer' ? 'Por Hacer' : filtroActual === 'enProceso' ? 'En Proceso' : 'Hecho' }}
+          </div>
+
+          <div *ngFor="let tarea of tareasFiltradas" style="background: white; border: 2px solid #1a1a1a; border-radius: 14px; padding: 16px; margin-bottom: 14px; box-shadow: 4px 4px 0px #1a1a1a;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span [style.background]="tarea.prioridad === 'ALTA' ? '#1a1a1a' : 'white'" [style.color]="tarea.prioridad === 'ALTA' ? 'white' : 'black'" [style.border]="tarea.prioridad === 'ALTA' ? 'none' : '1.5px solid #1a1a1a'" style="font-size: 11px; padding: 3px 10px; border-radius: 6px; font-weight: 500;">{{ tarea.prioridad }}</span>
+              <span style="font-size: 12px; color: #666; font-weight: normal;">{{ tarea.id }}</span>
+            </div>
+            <div style="font-size: 14px; font-weight: normal; margin-bottom: 20px; color: black;">{{ tarea.titulo }}</div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 28px; height: 28px; border: 2px solid #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: normal; background: white; color: black;">{{ tarea.avatar }}</div>
+              <span style="font-size: 12px; font-weight: normal; color: black;">{{ tarea.responsable }}</span>
+            </div>
+          </div>
+
+        </div>
+
+        <ion-modal [isOpen]="mostrarMenu" (didDismiss)="cerrarMenu()" style="--background: rgba(0,0,0,0.5);">
+          <ng-template>
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; padding: 20px;">
+              <div style="background: white; border: 3px solid #1a1a1a; border-radius: 16px; padding: 24px; width: 100%; max-width: 320px; box-shadow: 6px 6px 0px #1a1a1a;">
+                <h2 style="font-size: 16px; font-weight: 800; margin-bottom: 20px; color: black; text-align: center; letter-spacing: 0.5px;">MENÚ DE NAVEGACIÓN</h2>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div (click)="irA('/home')" style="background: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; text-align: center; font-weight: 700; color: black; box-shadow: 3px 3px 0px #1a1a1a; cursor: pointer;">🏠 Ir al Dashboard</div>
+                  <div (click)="irA('/tablero')" style="background: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; text-align: center; font-weight: 700; color: black; box-shadow: 3px 3px 0px #1a1a1a; cursor: pointer;">📋 Ver Tablero</div>
+                  <div (click)="irA('/tareas')" style="background: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; text-align: center; font-weight: 700; color: black; box-shadow: 3px 3px 0px #1a1a1a; cursor: pointer;">✅ Mis Tareas</div>
+                </div>
+
+                <button (click)="cerrarMenu()" style="width: 100%; margin-top: 20px; background: #ff6b6b; color: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0px #1a1a1a;">CERRAR</button>
+              </div>
+            </div>
+          </ng-template>
+        </ion-modal>
+      </ion-content>
+
+      <div style="background: #f4f4f4; height: 25px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; z-index: 10;">
+        <div style="width: 130px; height: 5px; background: #1a1a1a; border-radius: 3px;"></div>
+      </div>
+
+    </div>
+  </div>
+</div>

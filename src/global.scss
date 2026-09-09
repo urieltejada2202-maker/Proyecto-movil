@@ -35,3 +35,138 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+.menu-btn-neo {
+  background: white;
+  border: 2px solid #1a1a1a;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 700;
+  color: black;
+  box-shadow: 3px 3px 0px #1a1a1a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: #1a1a1a !important;
+    color: white !important;
+  }
+}
+
+.menu-btn-cerrar-neo {
+  width: 100%;
+  margin-top: 20px;
+  background: #ff6b6b;
+  color: white;
+  border: 2px solid #1a1a1a;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px #1a1a1a;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: #fa5252 !important;
+  }
+}
+.offline-banner {
+  background-color: #fff5f5;
+  border: 2px solid #c53030;
+  color: #c53030;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  box-shadow: 3px 3px 0px #c53030;
+}
+.phone-frame-wrapper {
+  background-color: #1a1a1a;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.phone-mockup {
+  width: 100%;
+  max-width: 390px;
+  height: 820px;
+  background: #f4f4f4;
+  border: 12px solid #333333;
+  border-radius: 55px;
+  position: relative;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.6), inset 0 0 12px rgba(0,0,0,0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 120px;
+    left: -16px;
+    width: 4px;
+    height: 28px;
+    background: #555555;
+    border-radius: 2px 0 0 2px;
+    box-shadow: 0 40px 0 #555555, 0 85px 0 #555555; /* Simula el switch de silencio y los dos botones de volumen */
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 145px;
+    right: -16px;
+    width: 4px;
+    height: 55px;
+    background: #555555;
+    border-radius: 0 2px 2px 0;
+  }
+}
+
+.phone-status-bar {
+  background: #f4f4f4;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 28px;
+  font-size: 13px;
+  font-weight: 600;
+  color: black;
+  z-index: 10;
+  flex-shrink: 0;
+
+  .dynamic-island {
+    width: 115px;
+    height: 26px;
+    background: #1a1a1a;
+    border-radius: 14px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10px;
+  }
+}
+
+.phone-home-indicator {
+  background: #f4f4f4;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  z-index: 10;
+
+  &::after {
+    content: '';
+    width: 130px;
+    height: 5px;
+    background: #1a1a1a;
+    border-radius: 3px;
+  }
+}

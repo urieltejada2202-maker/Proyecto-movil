@@ -1,0 +1,92 @@
+<div style="background-color: #1a1a1a; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;">
+  
+  <div style="position: relative;">
+
+    <div style="position: absolute; top: 125px; left: -5px; width: 4px; height: 26px; background: #b0b0b0; border-radius: 2px 0 0 2px; z-index: 5;"></div>
+    <div style="position: absolute; top: 168px; left: -5px; width: 4px; height: 42px; background: #b0b0b0; border-radius: 2px 0 0 2px; z-index: 5;"></div>
+    <div style="position: absolute; top: 220px; left: -5px; width: 4px; height: 42px; background: #b0b0b0; border-radius: 2px 0 0 2px; z-index: 5;"></div>
+    <div style="position: absolute; top: 260px; right: -5px; width: 4px; height: 55px; background: #b0b0b0; border-radius: 0 2px 2px 0; z-index: 5;"></div>
+
+    <div style="width: 380px; height: 790px; background: #f4f4f4; border: 10px solid #333333; border-radius: 80px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.6); overflow: hidden; display: flex; flex-direction: column;">
+      
+      <div style="background: #f4f4f4; height: 48px; display: flex; justify-content: space-between; align-items: center; padding: 0 28px; font-size: 13px; font-weight: 600; color: black; z-index: 10; flex-shrink: 0; position: relative;">
+        <span>9:41 AM</span>
+        <div style="width: 115px; height: 26px; background: #1a1a1a; border-radius: 14px; position: absolute; left: 50%; transform: translateX(-50%); top: 10px;"></div>
+        <span></span>
+      </div>
+
+      <ion-content [fullscreen]="true" style="--background: #f4f4f4; flex: 1; position: relative;">
+        <div style="padding: 20px;">
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h1 style="font-size: 26px; font-weight: 500; font-style: italic; color: black; margin: 0;">Mis Tareas</h1>
+            
+            <div (click)="abrirMenu()" style="width: 38px; height: 38px; border: 2px solid #1a1a1a; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: white; box-shadow: 2px 2px 0px #1a1a1a; cursor: pointer;">
+              <div style="display: flex; flex-direction: column; gap: 4px;">
+                <div style="width: 18px; height: 2px; background: black;"></div>
+                <div style="width: 18px; height: 2px; background: black;"></div>
+                <div style="width: 18px; height: 2px; background: black;"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="offline-banner" *ngIf="!isOnline">
+            ● Modo Offline: Sin conexión a internet
+          </div>
+
+          <div style="font-size: 12px; color: #666; margin-bottom: 12px;">Bienvenido de nuevo</div>
+          
+          <div style="font-size: 20px; font-weight: 600; margin-bottom: 4px; color: black;">Hola, Uriel</div>
+          <div style="font-size: 11px; font-weight: 500; background: #1a1a1a; color: white; display: inline-block; padding: 3px 10px; border-radius: 4px; margin-bottom: 20px;">UX/UI Developer</div>
+
+          <div style="background: white; border: 2px solid #1a1a1a; border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: 4px 4px 0px #1a1a1a;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-size: 12px; color: #666; margin-bottom: 4px;">Progreso Diario</div>
+                <div style="font-size: 14px; font-weight: 500; color: black;"><b>{{ tareasCompletadasCount }}</b> de {{ tareasPersonales.length }} completadas</div>
+              </div>
+              <div style="width: 44px; height: 44px; border: 2px solid #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; background: white; color: black;">
+                {{ porcentajeProgreso }}%
+              </div>
+            </div>
+            <div style="width: 100%; height: 8px; background: #e0e0e0; border: 2px solid #1a1a1a; border-radius: 4px; margin-top: 12px; overflow: hidden;">
+              <div [style.width.%]="porcentajeProgreso" style="height: 100%; background: #1a1a1a; transition: width 0.3s ease;"></div>
+            </div>
+          </div>
+
+          <div style="font-size: 13px; font-weight: 500; margin-bottom: 14px; color: black;">Lista de tareas</div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; background: white; border: 2px solid #1a1a1a; border-radius: 14px; padding: 16px; box-shadow: 4px 4px 0px #1a1a1a;">
+            <label *ngFor="let item of tareasPersonales" [style.text-decoration]="item.completada ? 'line-through' : 'none'" [style.color]="item.completada ? '#888' : 'black'" style="font-size: 13px; font-weight: normal; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: color 0.2s ease;">
+              <input type="checkbox" [(ngModel)]="item.completada" style="accent-color: black; width: 16px; height: 16px; cursor: pointer;"> {{ item.texto }}
+            </label>
+          </div>
+
+        </div>
+
+        <ion-modal [isOpen]="mostrarMenu" (didDismiss)="cerrarMenu()" style="--background: rgba(0,0,0,0.5);">
+          <ng-template>
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; padding: 20px;">
+              <div style="background: white; border: 3px solid #1a1a1a; border-radius: 16px; padding: 24px; width: 100%; max-width: 320px; box-shadow: 6px 6px 0px #1a1a1a;">
+                <h2 style="font-size: 16px; font-weight: 800; margin-bottom: 20px; color: black; text-align: center; letter-spacing: 0.5px;">MENÚ DE NAVEGACIÓN</h2>
+                
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div (click)="irA('/home')" style="background: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; text-align: center; font-weight: 700; color: black; box-shadow: 3px 3px 0px #1a1a1a; cursor: pointer;">🏠 Ir al Dashboard</div>
+                  <div (click)="irA('/tablero')" style="background: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; text-align: center; font-weight: 700; color: black; box-shadow: 3px 3px 0px #1a1a1a; cursor: pointer;">📋 Ver Tablero</div>
+                  <div (click)="irA('/tareas')" style="background: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; text-align: center; font-weight: 700; color: black; box-shadow: 3px 3px 0px #1a1a1a; cursor: pointer;">✅ Mis Tareas</div>
+                </div>
+
+                <button (click)="cerrarMenu()" style="width: 100%; margin-top: 20px; background: #ff6b6b; color: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0px #1a1a1a;">CERRAR</button>
+              </div>
+            </div>
+          </ng-template>
+        </ion-modal>
+      </ion-content>
+
+      <div style="background: #f4f4f4; height: 25px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; z-index: 10;">
+        <div style="width: 130px; height: 5px; background: #1a1a1a; border-radius: 3px;"></div>
+      </div>
+
+    </div>
+  </div>
+</div>

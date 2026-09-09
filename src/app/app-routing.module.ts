@@ -11,6 +11,14 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'tablero',
+    loadChildren: () => import('./tablero/tablero.module').then( m => m.TableroPageModule)
+  },
+  {
+    path: 'tareas',
+    loadChildren: () => import('./tareas/tareas.module').then( m => m.TareasPageModule)
+  },
 ];
 
 @NgModule({
