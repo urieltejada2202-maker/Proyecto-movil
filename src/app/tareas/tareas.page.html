@@ -1,176 +1,155 @@
-<div style="background-color: #1a1a1a; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;">
-  
-  <div style="position: relative;">
+<ion-content [fullscreen]="true" style="--background: #f4f5f8; position: relative;">
+  <div style="padding: 20px; padding-top: 40px; /* Un poco de espacio extra arriba para la barra de estado real del celular */">
+    
+    <div *ngIf="mostrarAlertaPantalla" style="background-color: #d4edda; color: #155724; border: 2px solid #1a1a1a; border-radius: 10px; padding: 12px; font-size: 12px; font-weight: bold; box-shadow: 3px 3px 0px #1a1a1a; text-align: center; margin-bottom: 15px;">
+      {{ mensajeNotificacion }}
+    </div>
 
-    <div style="position: absolute; top: 125px; left: -5px; width: 4px; height: 26px; background: #b0b0b0; border-radius: 2px 0 0 2px; z-index: 5;"></div>
-    <div style="position: absolute; top: 168px; left: -5px; width: 4px; height: 42px; background: #b0b0b0; border-radius: 2px 0 0 2px; z-index: 5;"></div>
-    <div style="position: absolute; top: 220px; left: -5px; width: 4px; height: 42px; background: #b0b0b0; border-radius: 2px 0 0 2px; z-index: 5;"></div>
-    <div style="position: absolute; top: 225px; right: -5px; width: 4px; height: 55px; background: #b0b0b0; border-radius: 0 2px 2px 0; z-index: 5;"></div>
-
-    <div style="width: 380px; height: 790px; background: #f4f4f4; border: 10px solid #333333; border-radius: 80px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.6); overflow: hidden; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h1 style="font-size: 26px; font-weight: 500; font-style: italic; color: black; margin: 0;">Mis Tareas</h1>
       
-      <div style="background: #f4f4f4; height: 48px; display: flex; justify-content: space-between; align-items: center; padding: 0 28px; font-size: 13px; font-weight: 600; color: black; z-index: 10; flex-shrink: 0; position: relative;">
-        <span>9:41 AM</span>
-        <div style="width: 115px; height: 26px; background: #1a1a1a; border-radius: 14px; position: absolute; left: 50%; transform: translateX(-50%); top: 10px;"></div>
-        <span></span>
+      <div (click)="abrirMenu()" style="width: 38px; height: 38px; border: 2px solid #1a1a1a; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: white; box-shadow: 2px 2px 0px #1a1a1a; cursor: pointer;">
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <div style="width: 18px; height: 2px; background: black;"></div>
+          <div style="width: 18px; height: 2px; background: black;"></div>
+          <div style="width: 18px; height: 2px; background: black;"></div>
+        </div>
       </div>
+    </div>
 
-      <ion-content [fullscreen]="true" style="--background: #f4f4f4; flex: 1; position: relative;">
-        <div style="padding: 20px;">
-          
-          <div *ngIf="mostrarAlertaPantalla" style="background-color: #d4edda; color: #155724; border: 2px solid #1a1a1a; border-radius: 10px; padding: 12px; font-size: 12px; font-weight: bold; box-shadow: 3px 3px 0px #1a1a1a; text-align: center; margin-bottom: 15px;">
-            {{ mensajeNotificacion }}
-          </div>
+    <div class="offline-banner" *ngIf="!isOnline" style="background-color: #ffcccc; color: #cc0000; border: 2px solid #1a1a1a; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: bold; box-shadow: 3px 3px 0px #1a1a1a; text-align: center; margin-bottom: 15px;">
+      ● Modo Offline: Sin conexión a internet
+    </div>
 
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h1 style="font-size: 26px; font-weight: 500; font-style: italic; color: black; margin: 0;">Mis Tareas</h1>
-            
-            <div (click)="abrirMenu()" style="width: 38px; height: 38px; border: 2px solid #1a1a1a; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: white; box-shadow: 2px 2px 0px #1a1a1a; cursor: pointer;">
-              <div style="display: flex; flex-direction: column; gap: 4px;">
-                <div style="width: 18px; height: 2px; background: black;"></div>
-                <div style="width: 18px; height: 2px; background: black;"></div>
-                <div style="width: 18px; height: 2px; background: black;"></div>
-              </div>
-            </div>
-          </div>
+    <div style="font-size: 12px; color: #666; margin-bottom: 12px;">Bienvenido de nuevo</div>
+    
+    <div style="font-size: 20px; font-weight: 600; margin-bottom: 4px; color: black;">
+      Hola, {{ usuarioActivo?.nombre?.split(' ')[0] || 'Uriel' }}
+    </div>
+    
+    <div style="font-size: 11px; font-weight: 500; background: #1a1a1a; color: white; display: inline-block; padding: 3px 10px; border-radius: 4px; margin-bottom: 20px;">
+      Rol: {{ usuarioActivo?.rol || 'UX/UI' }}
+    </div>
 
-          <div class="offline-banner" *ngIf="!isOnline" style="background-color: #ffcccc; color: #cc0000; border: 2px solid #1a1a1a; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: bold; box-shadow: 3px 3px 0px #1a1a1a; text-align: center; margin-bottom: 15px;">
-            ● Modo Offline: Sin conexión a internet
-          </div>
-
-          <div style="font-size: 12px; color: #666; margin-bottom: 12px;">Bienvenido de nuevo</div>
-          
-          <div style="font-size: 20px; font-weight: 600; margin-bottom: 4px; color: black;">Hola, Uriel</div>
-          <div style="font-size: 11px; font-weight: 500; background: #1a1a1a; color: white; display: inline-block; padding: 3px 10px; border-radius: 4px; margin-bottom: 20px;">UX/UI Developer</div>
-
-          <div style="background: white; border: 2px solid #1a1a1a; border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: 4px 4px 0px #1a1a1a;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <div style="font-size: 12px; color: #666; margin-bottom: 4px;">Progreso Diario</div>
-                <div style="font-size: 14px; font-weight: 500; color: black;"><b>{{ tareasCompletadasCount }}</b> de {{ tareasPersonales.length }} completadas</div>
-              </div>
-              <div style="width: 44px; height: 44px; border: 2px solid #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; background: white; color: black;">
-                {{ porcentajeProgreso }}%
-              </div>
-            </div>
-            <div style="width: 100%; height: 8px; background: #e0e0e0; border: 2px solid #1a1a1a; border-radius: 4px; margin-top: 12px; overflow: hidden;">
-              <div [style.width.%]="porcentajeProgreso" style="height: 100%; background: #1a1a1a; transition: width 0.3s ease;"></div>
-            </div>
-          </div>
-
-          <div style="font-size: 13px; font-weight: 500; margin-bottom: 14px; color: black;">Lista de tareas</div>
-          <div style="display: flex; flex-direction: column; gap: 8px; background: white; border: 2px solid #1a1a1a; border-radius: 14px; padding: 12px; box-shadow: 4px 4px 0px #1a1a1a; margin-bottom: 16px;">
-            <div *ngFor="let item of tareasPersonales" 
-                 (click)="toggleSeleccion(item.id)"
-                 [style.background]="tareasSeleccionadas.includes(item.id) ? '#ffdf70' : 'transparent'"
-                 [style.border]="tareasSeleccionadas.includes(item.id) ? '2px solid #1a1a1a' : '2px solid transparent'"
-                 style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;">
-              
-              <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
-                <input type="checkbox" 
-                       [(ngModel)]="item.completada" 
-                       (ngModelChange)="actualizarProgreso()" 
-                       (click)="$event.stopPropagation()" 
-                       style="accent-color: black; width: 18px; height: 18px; cursor: pointer; margin: 0; flex-shrink: 0;">
-                
-                <span [style.text-decoration]="item.completada ? 'line-through' : 'none'" 
-                      [style.color]="item.completada ? '#888' : 'black'" 
-                      style="font-size: 13px; font-weight: 600;">
-                  {{ item.texto }}
-                </span>
-              </div>
-
-              <div (click)="abrirModalEliminar(item.id, $event)" style="width: 26px; height: 26px; background: #ff6b6b; border: 2px solid #1a1a1a; border-radius: 6px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 2px 2px 0px #1a1a1a; margin-left: 10px; flex-shrink: 0;">
-                <span style="color: white; font-weight: 900; font-size: 12px;">✕</span>
-              </div>
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 12px; margin-bottom: 15px;">
-            <div (click)="abrirModalAgregar()" style="flex: 1; background: white; color: black; border: 2px solid #1a1a1a; padding: 12px; border-radius: 12px; text-align: center; font-weight: 700; box-shadow: 4px 4px 0px #1a1a1a; cursor: pointer;">
-              + Crear Tarea
-            </div>
-            
-            <div (click)="abrirModalCompartir()" [style.opacity]="tareasSeleccionadas.length > 0 ? '1' : '0.5'" style="flex: 1; background: #ffdf70; color: black; border: 2px solid #1a1a1a; padding: 12px; border-radius: 12px; text-align: center; font-weight: 900; box-shadow: 4px 4px 0px #1a1a1a; cursor: pointer; transition: opacity 0.2s ease;">
-              Compartir 📤
-            </div>
-          </div>
-
-          <div (click)="guardarDatos()" style="background: #1a1a1a; color: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 12px; text-align: center; font-weight: 700; box-shadow: 4px 4px 0px #666; cursor: pointer; margin-bottom: 20px;">
-            Guardar datos
-          </div>
-
+    <div style="background: white; border: 2px solid #1a1a1a; border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: 4px 4px 0px #1a1a1a;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-size: 12px; color: #666; margin-bottom: 4px;">Progreso Diario</div>
+          <div style="font-size: 14px; font-weight: 500; color: black;"><b>{{ tareasCompletadasCount }}</b> de {{ tareasPersonales.length }} completadas</div>
         </div>
-        <div *ngIf="mostrarModalCompartir" style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100000; padding: 20px;">
-          <div style="background: white; border: 4px solid #1a1a1a; border-radius: 16px; padding: 24px; width: 100%; max-width: 320px; box-shadow: 6px 6px 0px #1a1a1a; text-align: center;">
-            <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 12px; color: black; text-transform: uppercase;">Transferir {{ tareasSeleccionadas.length }} Tarea(s)</h2>
-            <p style="font-size: 14px; font-weight: 600; color: #444; margin-bottom: 24px;">Selecciona la tecnología a utilizar:</p>
-            
-            <div style="display: flex; flex-direction: column; gap: 14px;">
-              <button (click)="compartirPorBluetooth()" style="width: 100%; background: #bde0fe; color: black; border: 3px solid #1a1a1a; padding: 14px; border-radius: 10px; font-weight: 900; font-size: 14px; cursor: pointer; box-shadow: 4px 4px 0px #1a1a1a; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                <span style="font-size: 18px;">🔵</span> Vía Bluetooth
-              </button>
-              
-              <button (click)="compartirPorNFC()" style="width: 100%; background: #ffdf70; color: black; border: 3px solid #1a1a1a; padding: 14px; border-radius: 10px; font-weight: 900; font-size: 14px; cursor: pointer; box-shadow: 4px 4px 0px #1a1a1a; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                <span style="font-size: 18px;">📡</span> Vía NFC
-              </button>
-              
-              <button (click)="cerrarModalCompartir()" style="width: 100%; margin-top: 8px; background: white; color: black; border: 3px solid #1a1a1a; padding: 14px; border-radius: 10px; font-weight: 900; font-size: 14px; cursor: pointer; box-shadow: 4px 4px 0px #1a1a1a;">
-                CANCELAR
-              </button>
-            </div>
-          </div>
+        <div style="width: 44px; height: 44px; border: 2px solid #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; background: white; color: black;">
+          {{ porcentajeProgreso }}%
         </div>
-
-        <div *ngIf="mostrarModalAgregar" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;">
-          <div style="background: white; border: 4px solid #1a1a1a; border-radius: 16px; padding: 24px; width: 100%; max-width: 320px; box-shadow: 6px 6px 0px #1a1a1a;">
-            <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 16px; color: black; text-align: center;">NUEVA TAREA</h2>
-            <input type="text" [(ngModel)]="nuevaTareaTexto" placeholder="¿Qué hay que hacer?" style="width: 100%; padding: 14px; border: 3px solid #1a1a1a; border-radius: 10px; margin-bottom: 24px; font-size: 14px; font-weight: 600; font-family: inherit; box-sizing: border-box; outline: none; background: #f4f4f4; color: black;">
-            <div style="display: flex; gap: 12px;">
-              <button (click)="cancelarAgregar()" style="flex: 1; background: white; color: black; border: 3px solid #1a1a1a; padding: 12px; border-radius: 10px; font-weight: 900; font-size: 13px; cursor: pointer; box-shadow: 3px 3px 0px #1a1a1a;">CANCELAR</button>
-              <button (click)="confirmarAgregar()" style="flex: 1; background: #88d49e; color: black; border: 3px solid #1a1a1a; padding: 12px; border-radius: 10px; font-weight: 900; font-size: 13px; cursor: pointer; box-shadow: 3px 3px 0px #1a1a1a;">GUARDAR</button>
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="mostrarModalEliminar" style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 99999; padding: 20px;">
-          <div style="background: white; border: 4px solid #1a1a1a; border-radius: 16px; padding: 24px; width: 100%; max-width: 320px; box-shadow: 6px 6px 0px #1a1a1a; text-align: center;">
-            <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 12px; color: black;">CONFIRMAR</h2>
-            <p style="font-size: 14px; font-weight: 600; color: #444; margin-bottom: 24px;">¿Seguro que deseas eliminar esta tarea?</p>
-            <div style="display: flex; gap: 12px;">
-              <button (click)="cancelarEliminar()" style="flex: 1; background: white; color: black; border: 3px solid #1a1a1a; padding: 12px; border-radius: 10px; font-weight: 900; font-size: 13px; cursor: pointer; box-shadow: 3px 3px 0px #1a1a1a;">CANCELAR</button>
-              <button (click)="confirmarEliminar()" style="flex: 1; background: #ff6b6b; color: white; border: 3px solid #1a1a1a; padding: 12px; border-radius: 10px; font-weight: 900; font-size: 13px; cursor: pointer; box-shadow: 3px 3px 0px #1a1a1a;">ELIMINAR</button>
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="mostrarModalOffline" style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 99999; padding: 20px;">
-          <div style="background: white; border: 4px solid #1a1a1a; border-radius: 16px; padding: 20px; width: 100%; max-width: 260px; box-shadow: 5px 5px 0px #1a1a1a; text-align: center;">
-            <h2 style="font-size: 14px; font-weight: 800; color: black; margin-bottom: 10px;">ESTÁS DESCONECTADO</h2>
-            <p style="font-size: 11px; color: #555; margin-bottom: 16px; line-height: 1.4;">Tus tareas se guardarán localmente y se sincronizarán al recuperar la conexión.</p>
-            <button (click)="cerrarModal()" style="background: #1a1a1a; color: white; border: 2px solid #1a1a1a; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: 2px 2px 0px #666;">ENTENDIDO</button>
-          </div>
-        </div>
-
-
-        <div *ngIf="mostrarMenu" style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;">
-          <div style="background: white; border: 3px solid #1a1a1a; border-radius: 16px; padding: 24px; width: 100%; max-width: 320px; box-shadow: 6px 6px 0px #1a1a1a;">
-            <h2 style="font-size: 16px; font-weight: 800; margin-bottom: 20px; color: black; text-align: center; letter-spacing: 0.5px;">MENÚ DE NAVEGACIÓN</h2>
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-              <div (click)="irA('/home')" style="background: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; text-align: center; font-weight: 700; color: black; box-shadow: 3px 3px 0px #1a1a1a; cursor: pointer;">🏠 Panel de control</div>
-              <div (click)="irA('/tablero')" style="background: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; text-align: center; font-weight: 700; color: black; box-shadow: 3px 3px 0px #1a1a1a; cursor: pointer;">📋 Ver Tablero</div>
-              <div (click)="irA('/tareas')" style="background: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; text-align: center; font-weight: 700; color: black; box-shadow: 3px 3px 0px #1a1a1a; cursor: pointer;">✅ Mis Tareas</div>
-            </div>
-            <button (click)="cerrarMenu()" style="width: 100%; margin-top: 20px; background: #ff6b6b; color: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0px #1a1a1a;">CERRAR</button>
-          </div>
-        </div>
-
-      </ion-content>
-
-      <div style="background: #f4f4f4; height: 25px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; z-index: 10;">
-        <div style="width: 130px; height: 5px; background: #1a1a1a; border-radius: 3px;"></div>
       </div>
+      <div style="width: 100%; height: 8px; background: #e0e0e0; border: 2px solid #1a1a1a; border-radius: 4px; margin-top: 12px; overflow: hidden;">
+        <div [style.width.%]="porcentajeProgreso" style="height: 100%; background: #1a1a1a; transition: width 0.3s ease;"></div>
+      </div>
+    </div>
 
+    <div style="font-size: 13px; font-weight: 500; margin-bottom: 14px; color: black;">Lista de tareas</div>
+    <div style="display: flex; flex-direction: column; gap: 8px; background: white; border: 2px solid #1a1a1a; border-radius: 14px; padding: 12px; box-shadow: 4px 4px 0px #1a1a1a; margin-bottom: 16px;">
+      <div *ngFor="let item of tareasPersonales" 
+           (click)="toggleSeleccion(item.id)"
+           [style.background]="tareasSeleccionadas.includes(item.id) ? '#ffdf70' : 'transparent'"
+           [style.border]="tareasSeleccionadas.includes(item.id) ? '2px solid #1a1a1a' : '2px solid transparent'"
+           style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;">
+        
+        <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
+          <input type="checkbox" 
+                 [(ngModel)]="item.completada" 
+                 (ngModelChange)="actualizarProgreso()" 
+                 (click)="$event.stopPropagation()" 
+                 style="accent-color: black; width: 18px; height: 18px; cursor: pointer; margin: 0; flex-shrink: 0;">
+          
+          <span [style.text-decoration]="item.completada ? 'line-through' : 'none'" 
+                [style.color]="item.completada ? '#888' : 'black'" 
+                style="font-size: 13px; font-weight: 600;">
+            {{ item.texto }}
+          </span>
+        </div>
+
+        <div (click)="abrirModalEliminar(item.id, $event)" style="width: 26px; height: 26px; background: #ff6b6b; border: 2px solid #1a1a1a; border-radius: 6px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 2px 2px 0px #1a1a1a; margin-left: 10px; flex-shrink: 0;">
+          <span style="color: white; font-weight: 900; font-size: 12px;">✕</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 12px; margin-bottom: 15px;">
+      <div (click)="abrirModalAgregar()" style="flex: 1; background: white; color: black; border: 2px solid #1a1a1a; padding: 12px; border-radius: 12px; text-align: center; font-weight: 700; box-shadow: 4px 4px 0px #1a1a1a; cursor: pointer;">
+        + Crear Tarea
+      </div>
+      
+      <div (click)="abrirModalCompartir()" [style.opacity]="tareasSeleccionadas.length > 0 ? '1' : '0.5'" style="flex: 1; background: #ffdf70; color: black; border: 2px solid #1a1a1a; padding: 12px; border-radius: 12px; text-align: center; font-weight: 900; box-shadow: 4px 4px 0px #1a1a1a; cursor: pointer; transition: opacity 0.2s ease;">
+        Compartir 📤
+      </div>
+    </div>
+
+    <div (click)="guardarDatos()" style="background: #1a1a1a; color: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 12px; text-align: center; font-weight: 700; box-shadow: 4px 4px 0px #666; cursor: pointer; margin-bottom: 20px;">
+      Guardar datos
     </div>
   </div>
-</div>
+  
+  <!-- MODALES -->
+  <div *ngIf="mostrarModalCompartir" style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100000; padding: 20px;">
+    <div style="background: white; border: 4px solid #1a1a1a; border-radius: 16px; padding: 24px; width: 100%; max-width: 320px; box-shadow: 6px 6px 0px #1a1a1a; text-align: center;">
+      <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 12px; color: black; text-transform: uppercase;">Transferir {{ tareasSeleccionadas.length }} Tarea(s)</h2>
+      <p style="font-size: 14px; font-weight: 600; color: #444; margin-bottom: 24px;">Selecciona la tecnología a utilizar:</p>
+      
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <button (click)="compartirPorBluetooth()" style="width: 100%; background: #bde0fe; color: black; border: 3px solid #1a1a1a; padding: 14px; border-radius: 10px; font-weight: 900; font-size: 14px; cursor: pointer; box-shadow: 4px 4px 0px #1a1a1a; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <span style="font-size: 18px;">🔵</span> Vía Bluetooth
+        </button>
+        
+        <button (click)="compartirPorNFC()" style="width: 100%; background: #ffdf70; color: black; border: 3px solid #1a1a1a; padding: 14px; border-radius: 10px; font-weight: 900; font-size: 14px; cursor: pointer; box-shadow: 4px 4px 0px #1a1a1a; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <span style="font-size: 18px;">📡</span> Vía NFC
+        </button>
+        
+        <button (click)="cerrarModalCompartir()" style="width: 100%; margin-top: 8px; background: white; color: black; border: 3px solid #1a1a1a; padding: 14px; border-radius: 10px; font-weight: 900; font-size: 14px; cursor: pointer; box-shadow: 4px 4px 0px #1a1a1a;">
+          CANCELAR
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="mostrarModalAgregar" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;">
+    <div style="background: white; border: 4px solid #1a1a1a; border-radius: 16px; padding: 24px; width: 100%; max-width: 320px; box-shadow: 6px 6px 0px #1a1a1a;">
+      <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 16px; color: black; text-align: center;">NUEVA TAREA</h2>
+      <input type="text" [(ngModel)]="nuevaTareaTexto" placeholder="¿Qué hay que hacer?" style="width: 100%; padding: 14px; border: 3px solid #1a1a1a; border-radius: 10px; margin-bottom: 24px; font-size: 14px; font-weight: 600; font-family: inherit; box-sizing: border-box; outline: none; background: #f4f4f4; color: black;">
+      <div style="display: flex; gap: 12px;">
+        <button (click)="cancelarAgregar()" style="flex: 1; background: white; color: black; border: 3px solid #1a1a1a; padding: 12px; border-radius: 10px; font-weight: 900; font-size: 13px; cursor: pointer; box-shadow: 3px 3px 0px #1a1a1a;">CANCELAR</button>
+        <button (click)="confirmarAgregar()" style="flex: 1; background: #88d49e; color: black; border: 3px solid #1a1a1a; padding: 12px; border-radius: 10px; font-weight: 900; font-size: 13px; cursor: pointer; box-shadow: 3px 3px 0px #1a1a1a;">GUARDAR</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="mostrarModalEliminar" style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 99999; padding: 20px;">
+    <div style="background: white; border: 4px solid #1a1a1a; border-radius: 16px; padding: 24px; width: 100%; max-width: 320px; box-shadow: 6px 6px 0px #1a1a1a; text-align: center;">
+      <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 12px; color: black;">CONFIRMAR</h2>
+      <p style="font-size: 14px; font-weight: 600; color: #444; margin-bottom: 24px;">¿Seguro que deseas eliminar esta tarea?</p>
+      <div style="display: flex; gap: 12px;">
+        <button (click)="cancelarEliminar()" style="flex: 1; background: white; color: black; border: 3px solid #1a1a1a; padding: 12px; border-radius: 10px; font-weight: 900; font-size: 13px; cursor: pointer; box-shadow: 3px 3px 0px #1a1a1a;">CANCELAR</button>
+        <button (click)="confirmarEliminar()" style="flex: 1; background: #ff6b6b; color: white; border: 3px solid #1a1a1a; padding: 12px; border-radius: 10px; font-weight: 900; font-size: 13px; cursor: pointer; box-shadow: 3px 3px 0px #1a1a1a;">ELIMINAR</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="mostrarModalOffline" style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 99999; padding: 20px;">
+    <div style="background: white; border: 4px solid #1a1a1a; border-radius: 16px; padding: 20px; width: 100%; max-width: 260px; box-shadow: 5px 5px 0px #1a1a1a; text-align: center;">
+      <h2 style="font-size: 14px; font-weight: 800; color: black; margin-bottom: 10px;">ESTÁS DESCONECTADO</h2>
+      <p style="font-size: 11px; color: #555; margin-bottom: 16px; line-height: 1.4;">Tus tareas se guardarán localmente y se sincronizarán al recuperar la conexión.</p>
+      <button (click)="cerrarModal()" style="background: #1a1a1a; color: white; border: 2px solid #1a1a1a; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: 2px 2px 0px #666;">ENTENDIDO</button>
+    </div>
+  </div>
+
+  <div *ngIf="mostrarMenu" style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;">
+    <div style="background: white; border: 3px solid #1a1a1a; border-radius: 16px; padding: 24px; width: 100%; max-width: 320px; box-shadow: 6px 6px 0px #1a1a1a;">
+      <h2 style="font-size: 16px; font-weight: 800; margin-bottom: 20px; color: black; text-align: center; letter-spacing: 0.5px;">MENÚ DE NAVEGACIÓN</h2>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div (click)="irA('/home')" style="background: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; text-align: center; font-weight: 700; color: black; box-shadow: 3px 3px 0px #1a1a1a; cursor: pointer;">🏠 Panel de control</div>
+        <div (click)="irA('/tablero')" style="background: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; text-align: center; font-weight: 700; color: black; box-shadow: 3px 3px 0px #1a1a1a; cursor: pointer;">📋 Ver Tablero</div>
+        <div (click)="irA('/tareas')" style="background: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; text-align: center; font-weight: 700; color: black; box-shadow: 3px 3px 0px #1a1a1a; cursor: pointer;">✅ Mis Tareas</div>
+      </div>
+      <button (click)="cerrarMenu()" style="width: 100%; margin-top: 20px; background: #ff6b6b; color: white; border: 2px solid #1a1a1a; padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0px #1a1a1a;">CERRAR</button>
+    </div>
+  </div>
+</ion-content>

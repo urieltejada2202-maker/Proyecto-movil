@@ -14,6 +14,7 @@ import { BleClient } from '@capacitor-community/bluetooth-le';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TareasPage implements OnInit {
+  usuarioActivo: any = null;
   mostrarAlertaPantalla = false;
   tipoNotificacion = 'success';
   mensajeNotificacion = '';
@@ -36,6 +37,16 @@ export class TareasPage implements OnInit {
 
   constructor(private router: Router, private ngZone: NgZone, private cdr: ChangeDetectorRef) {}
 
+  ionViewWillEnter() {
+    const datos = localStorage.getItem('usuarioActivo');
+    if (datos) {
+      this.usuarioActivo = JSON.parse(datos);
+    } else {
+      this.usuarioActivo = { nombre: 'Uriel Tejada', rol: 'UX/UI Developer' }; 
+    }
+    this.cdr.detectChanges(); 
+  }
+ 
   async ngOnInit() {
     const tareasGuardadas = localStorage.getItem('tareas_wizard');
     if (tareasGuardadas) this.tareasPersonales = JSON.parse(tareasGuardadas);
@@ -66,7 +77,6 @@ export class TareasPage implements OnInit {
   }
 
   cerrarModal() { this.mostrarModalOffline = false; this.cdr.detectChanges(); }
-
   mostrarMensaje(texto: string) {
     this.mensajeNotificacion = texto;
     this.mostrarAlertaPantalla = true;
@@ -78,7 +88,6 @@ export class TareasPage implements OnInit {
   }
 
   get tareasCompletadasCount() { return this.tareasPersonales.filter(t => t.completada).length; }
-
   get porcentajeProgreso() {
     if (this.tareasPersonales.length === 0) return 0;
     return Math.round((this.tareasCompletadasCount / this.tareasPersonales.length) * 100);
@@ -109,7 +118,6 @@ export class TareasPage implements OnInit {
     
     try {
       await BleClient.initialize();
-      
       const device = await BleClient.requestDevice();
       console.log('Se conectó a:', device);
       this.mostrarMensaje(`Sincronizando ${this.tareasSeleccionadas.length} tarea(s) con ${device.name || 'el dispositivo'}...`);
@@ -129,7 +137,6 @@ export class TareasPage implements OnInit {
 
   abrirModalAgregar() { this.nuevaTareaTexto = ''; this.mostrarModalAgregar = true; }
   cancelarAgregar() { this.mostrarModalAgregar = false; }
-  
   confirmarAgregar() {
     if (this.nuevaTareaTexto.trim() !== '') {
       this.tareasPersonales.unshift({ id: Date.now(), texto: this.nuevaTareaTexto.trim(), completada: false });
