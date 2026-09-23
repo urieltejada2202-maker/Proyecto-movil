@@ -1,0 +1,29 @@
+<ion-content [fullscreen]="true" style="--background: #f4f4f4; position: relative;">
+  
+  <div id="mapId" style="width: 100%; height: 100%; z-index: 1;"></div>
+
+  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; padding: 20px; padding-top: 40px; display: flex; flex-direction: column; justify-content: space-between;">
+    
+    <div style="display: flex; gap: 10px; pointer-events: auto;">
+      <div (click)="volver()" style="width: 48px; height: 48px; background: white; border: 3px solid #1a1a1a; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 4px 4px 0px #1a1a1a; cursor: pointer;">
+        <span style="font-size: 20px; font-weight: 900; color: black;">←</span>
+      </div>
+      
+      <div style="flex: 1; background: white; border: 3px solid #1a1a1a; border-radius: 12px; display: flex; align-items: center; padding: 0 15px; box-shadow: 4px 4px 0px #1a1a1a;">
+        <input type="text" [(ngModel)]="busqueda" placeholder="Buscar lugares cercanos..." style="width: 100%; border: none; outline: none; background: transparent; font-weight: 600; font-size: 14px; color: black;">
+        <span (click)="buscarLugares()" style="font-size: 18px; cursor: pointer;">🔍</span>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 15px; pointer-events: auto; margin-bottom: 20px;">
+      <div (click)="centrarUbicacion()" style="flex: 1; background: #ffdf70; color: black; border: 3px solid #1a1a1a; padding: 14px; border-radius: 12px; text-align: center; font-weight: 900; box-shadow: 4px 4px 0px #1a1a1a; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px;">
+        <span>📍</span> Mi Ubicación
+      </div>
+      
+      <div (click)="compartirUbicacion()" style="flex: 1; background: #88d49e; color: black; border: 3px solid #1a1a1a; padding: 14px; border-radius: 12px; text-align: center; font-weight: 900; box-shadow: 4px 4px 0px #1a1a1a; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px;">
+        <span>📤</span> Compartir
+      </div>
+    </div>
+
+  </div>
+</ion-content>

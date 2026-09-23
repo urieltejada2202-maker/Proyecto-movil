@@ -35,6 +35,7 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+@import "leaflet/dist/leaflet.css";
 .menu-btn-neo {
   background: white;
   border: 2px solid #1a1a1a;
@@ -113,8 +114,7 @@
     height: 28px;
     background: #555555;
     border-radius: 2px 0 0 2px;
-    box-shadow: 0 40px 0 #555555, 0 85px 0 #555555; /* Simula el switch de silencio y los dos botones de volumen */
-  }
+    box-shadow: 0 40px 0 #555555, 0 85px 0 #555555;
 
   &::after {
     content: '';
