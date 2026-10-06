@@ -1,5 +1,4 @@
 import { Component, OnInit, NgZone, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Network, ConnectionStatus } from '@capacitor/network';
@@ -20,7 +19,7 @@ export class TareasPage implements OnInit {
   mensajeNotificacion = '';
   isOnline = true;
   mostrarModalOffline = false;
-  mostrarMenu = false;
+  
   mostrarModalAgregar = false;
   nuevaTareaTexto = '';
   mostrarModalEliminar = false;
@@ -35,7 +34,7 @@ export class TareasPage implements OnInit {
     { id: 3, texto: 'Integrar API de autenticación', completada: true }
   ];
 
-  constructor(private router: Router, private ngZone: NgZone, private cdr: ChangeDetectorRef) {}
+  constructor(private ngZone: NgZone, private cdr: ChangeDetectorRef) {}
 
   ionViewWillEnter() {
     const datos = localStorage.getItem('usuarioActivo');
@@ -77,6 +76,7 @@ export class TareasPage implements OnInit {
   }
 
   cerrarModal() { this.mostrarModalOffline = false; this.cdr.detectChanges(); }
+  
   mostrarMensaje(texto: string) {
     this.mensajeNotificacion = texto;
     this.mostrarAlertaPantalla = true;
@@ -174,8 +174,4 @@ export class TareasPage implements OnInit {
       this.mostrarMensaje('Error crítico. No se pudieron guardar los datos.');
     }
   }
-
-  abrirMenu() { this.mostrarMenu = true; }
-  cerrarMenu() { this.mostrarMenu = false; }
-  irA(ruta: string) { this.cerrarMenu(); this.router.navigate([ruta]); }
 }

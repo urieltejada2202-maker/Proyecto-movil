@@ -1,7 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Geolocation } from '@capacitor/geolocation';
 import { Capacitor } from '@capacitor/core';
 import { Share } from '@capacitor/share';
@@ -29,7 +28,6 @@ export class MapaPage {
   });
 
   constructor(
-    private router: Router,
     private zone: NgZone,
     private loadingCtrl: LoadingController
   ) {}
@@ -43,6 +41,8 @@ export class MapaPage {
   ionViewWillLeave() {
     if (this.map) {
       this.map.remove();
+      this.map = null;
+      this.marker = null;
     }
   }
 
@@ -83,6 +83,7 @@ export class MapaPage {
   
       const lat = coordinates.coords.latitude;
       const lng = coordinates.coords.longitude;
+      
       this.zone.run(() => {
         this.map.setView([lat, lng], 16);
 
@@ -97,7 +98,7 @@ export class MapaPage {
     } catch (error) {
       await loading.dismiss();
       console.error('Error obteniendo ubicación', error);
-      alert('Error de GPS. Por favor, baja la barra de notificaciones de tu Android y enciende la "Ubicación".');
+      alert('Error de GPS. Por favor, asegúrate de tener la ubicación encendida.');
     }
   }
 
@@ -159,11 +160,7 @@ export class MapaPage {
         console.log('Compartir cancelado o con error');
       }
     } else {
-      alert('No se puede compartir: Aún no hemos detectado tu ubicación en el mapa. Espera a que cargue el GPS.');
+      alert('Aún no hemos detectado tu ubicación en el mapa.');
     }
-  }
-
-  volver() {
-    this.router.navigate(['/home']);
   }
 }

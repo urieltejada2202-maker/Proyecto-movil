@@ -32,7 +32,7 @@ export class LoginPage {
       this.username = '';
       this.password = '';
 
-      this.router.navigate(['/home']); 
+      this.router.navigate(['/tabs/home']);
     } else {
       this.mostrarError = true;
     }

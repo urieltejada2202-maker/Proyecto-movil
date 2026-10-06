@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
 import { Network, ConnectionStatus } from '@capacitor/network';
 
 @Component({
@@ -10,7 +9,6 @@ import { Network, ConnectionStatus } from '@capacitor/network';
 })
 export class TableroPage implements OnInit, OnDestroy {
   filtroActual: string = 'enProceso';
-  mostrarMenu: boolean = false;
   isOnline: boolean = true;
   mostrarModalOffline = false;
 
@@ -33,7 +31,6 @@ export class TableroPage implements OnInit, OnDestroy {
   private offlineListenerHandler = () => this.ngZone.run(() => this.actualizarEstado(false));
 
   constructor(
-    private router: Router,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef
   ) {}
@@ -100,20 +97,5 @@ export class TableroPage implements OnInit, OnDestroy {
 
   cambiarFiltro(estado: string) {
     this.filtroActual = estado;
-  }
-
-  abrirMenu() {
-    this.mostrarMenu = true;
-  }
-
-  cerrarMenu() {
-    this.mostrarMenu = false;
-  }
-
-  irA(ruta: string) {
-    this.mostrarMenu = false;
-    setTimeout(() => {
-      this.router.navigate([ruta]);
-    }, 100);
   }
 }

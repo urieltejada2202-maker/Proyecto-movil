@@ -4,6 +4,8 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular/lazy';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -13,7 +15,8 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    HttpClientModule 
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
