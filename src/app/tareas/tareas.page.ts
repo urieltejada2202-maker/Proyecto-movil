@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Network, ConnectionStatus } from '@capacitor/network';
 import { BleClient } from '@capacitor-community/bluetooth-le';
-
+import { TareasStorageService } from './tareas-storage.service';
 @Component({
   selector: 'app-tareas',
   templateUrl: './tareas.page.html',
@@ -34,8 +34,11 @@ export class TareasPage implements OnInit {
     { id: 3, texto: 'Integrar API de autenticación', completada: true }
   ];
 
-  constructor(private ngZone: NgZone, private cdr: ChangeDetectorRef) {}
-
+  constructor(
+  private ngZone: NgZone,
+  private cdr: ChangeDetectorRef,
+  private tareasStorage: TareasStorageService
+) {}
   ionViewWillEnter() {
     const datos = localStorage.getItem('usuarioActivo');
     if (datos) {
@@ -47,9 +50,11 @@ export class TareasPage implements OnInit {
   }
  
   async ngOnInit() {
-    const tareasGuardadas = localStorage.getItem('tareas_wizard');
-    if (tareasGuardadas) this.tareasPersonales = JSON.parse(tareasGuardadas);
+    const tareasGuardadas = await this.tareasStorage.obtenerTareas();
 
+    if (tareasGuardadas.length > 0) {
+      this.tareasPersonales = tareasGuardadas;
+    }
     try {
       const status = await Network.getStatus();
       this.actualizarEstado(status.connected);
@@ -93,7 +98,10 @@ export class TareasPage implements OnInit {
     return Math.round((this.tareasCompletadasCount / this.tareasPersonales.length) * 100);
   }
 
-  actualizarProgreso() { this.cdr.detectChanges(); }
+  async actualizarProgreso() {
+    await this.tareasStorage.guardarTareas(this.tareasPersonales);
+    this.cdr.detectChanges();
+  }
 
   toggleSeleccion(id: number) {
     const index = this.tareasSeleccionadas.indexOf(id);
@@ -137,13 +145,21 @@ export class TareasPage implements OnInit {
 
   abrirModalAgregar() { this.nuevaTareaTexto = ''; this.mostrarModalAgregar = true; }
   cancelarAgregar() { this.mostrarModalAgregar = false; }
-  confirmarAgregar() {
-    if (this.nuevaTareaTexto.trim() !== '') {
-      this.tareasPersonales.unshift({ id: Date.now(), texto: this.nuevaTareaTexto.trim(), completada: false });
-      this.cdr.detectChanges();
-    }
-    this.mostrarModalAgregar = false;
+  async confirmarAgregar() {
+  if (this.nuevaTareaTexto.trim() !== '') {
+    this.tareasPersonales.unshift({
+      id: Date.now(),
+      texto: this.nuevaTareaTexto.trim(),
+      completada: false
+    });
+
+    await this.tareasStorage.guardarTareas(this.tareasPersonales);
+
+    this.cdr.detectChanges();
   }
+
+  this.mostrarModalAgregar = false;
+}
 
   abrirModalEliminar(id: number, event: Event) {
     event.preventDefault(); event.stopPropagation();
@@ -155,23 +171,39 @@ export class TareasPage implements OnInit {
 
   cancelarEliminar() { this.mostrarModalEliminar = false; this.tareaAEliminarId = null; this.cdr.detectChanges(); }
 
-  confirmarEliminar() {
+  async confirmarEliminar() {
     if (this.tareaAEliminarId === null) return;
+
     const id = this.tareaAEliminarId;
+
     this.mostrarModalEliminar = false;
     this.tareaAEliminarId = null;
-    this.tareasSeleccionadas = this.tareasSeleccionadas.filter(selId => selId !== id);
-    this.tareasPersonales = this.tareasPersonales.filter(tarea => tarea.id !== id);
+
+    this.tareasSeleccionadas =
+      this.tareasSeleccionadas.filter(selId => selId !== id);
+
+    this.tareasPersonales =
+      this.tareasPersonales.filter(tarea => tarea.id !== id);
+
+    await this.tareasStorage.guardarTareas(this.tareasPersonales);
+
     this.cdr.detectChanges();
   }
 
-  guardarDatos() {
+  async guardarDatos() {
     try {
-      localStorage.setItem('tareas_wizard', JSON.stringify(this.tareasPersonales));
-      if (this.isOnline) this.mostrarMensaje('¡Guardado en la nube exitosamente!');
-      else this.mostrarMensaje('Estado sin conexión. Los datos se guardarán localmente hasta que vuelva la conexión.');
+      await this.tareasStorage.guardarTareas(this.tareasPersonales);
+
+      if (this.isOnline) {
+        this.mostrarMensaje('¡Tareas guardadas correctamente!');
+      } else {
+        this.mostrarMensaje(
+          'Las tareas se guardaron localmente. Se conservarán aunque no haya conexión.'
+        );
+      }
     } catch (error) {
-      this.mostrarMensaje('Error crítico. No se pudieron guardar los datos.');
+      console.error('Error al guardar las tareas:', error);
+      this.mostrarMensaje('Error. No se pudieron guardar las tareas.');
     }
   }
 }
