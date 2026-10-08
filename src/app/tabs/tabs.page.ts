@@ -7,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   standalone: false,
 })
 export class TabsPage implements OnInit {
+  tabSeleccionado: string = 'home';
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  tabCambiada(event: any) {
+    this.tabSeleccionado = event.tab;
   }
 
 }

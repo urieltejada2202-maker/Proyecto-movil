@@ -1,4 +1,5 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Network, ConnectionStatus } from '@capacitor/network';
 
 @Component({
   selector: 'app-noticias',
@@ -6,14 +7,61 @@ import { Component, ChangeDetectorRef } from '@angular/core';
   styleUrls: ['./noticias.page.scss'],
   standalone: false
 })
-export class NoticiasPage {
+export class NoticiasPage implements OnInit {
   noticias: any[] = [];
   cargando = true;
+  mostrarAlertaPantalla = false;
+  mensajeNotificacion = '';
+  isOnline = true;
+  mostrarModalOffline = false;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private ngZone: NgZone) {}
 
   ionViewWillEnter() {
     this.cargarNoticias();
+  }
+
+  async ngOnInit() {
+    try {
+      const status = await Network.getStatus();
+      this.actualizarEstado(status.connected);
+      Network.addListener('networkStatusChange', (status: ConnectionStatus) => {
+        this.ngZone.run(() => this.actualizarEstado(status.connected));
+      });
+    } catch (error) {
+      this.actualizarEstado(navigator.onLine);
+    }
+
+    window.addEventListener('offline', () => this.ngZone.run(() => this.actualizarEstado(false)));
+    window.addEventListener('online', () => this.ngZone.run(() => this.actualizarEstado(true)));
+  }
+
+  actualizarEstado(conectado: boolean) {
+    const estadoAnterior = this.isOnline;
+    this.isOnline = conectado;
+    
+    if (!conectado && estadoAnterior) {
+      this.mostrarModalOffline = true;
+    } else if (conectado) {
+      this.mostrarModalOffline = false;
+      if (!estadoAnterior) this.mostrarMensaje('Se ha recuperado la conexión');
+    }
+    this.cdr.detectChanges();
+  }
+
+  cerrarModal() { 
+    this.mostrarModalOffline = false; 
+    this.cdr.detectChanges(); 
+  }
+  
+  mostrarMensaje(texto: string) {
+    this.mensajeNotificacion = texto;
+    this.mostrarAlertaPantalla = true;
+    this.cdr.detectChanges();
+    setTimeout(() => this.ngZone.run(() => {
+      this.mostrarAlertaPantalla = false;
+      this.cdr.detectChanges();
+    }), 4000);
   }
 
   cargarNoticias() {

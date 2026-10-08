@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Network, ConnectionStatus } from '@capacitor/network';
 import { BleClient } from '@capacitor-community/bluetooth-le';
 import { TareasStorageService } from './tareas-storage.service';
+
 @Component({
   selector: 'app-tareas',
   templateUrl: './tareas.page.html',
@@ -35,10 +36,11 @@ export class TareasPage implements OnInit {
   ];
 
   constructor(
-  private ngZone: NgZone,
-  private cdr: ChangeDetectorRef,
-  private tareasStorage: TareasStorageService
-) {}
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef,
+    private tareasStorage: TareasStorageService
+  ) {}
+
   ionViewWillEnter() {
     const datos = localStorage.getItem('usuarioActivo');
     if (datos) {
@@ -48,7 +50,7 @@ export class TareasPage implements OnInit {
     }
     this.cdr.detectChanges(); 
   }
- 
+
   async ngOnInit() {
     const tareasGuardadas = await this.tareasStorage.obtenerTareas();
 
@@ -145,21 +147,21 @@ export class TareasPage implements OnInit {
 
   abrirModalAgregar() { this.nuevaTareaTexto = ''; this.mostrarModalAgregar = true; }
   cancelarAgregar() { this.mostrarModalAgregar = false; }
+  
   async confirmarAgregar() {
-  if (this.nuevaTareaTexto.trim() !== '') {
-    this.tareasPersonales.unshift({
-      id: Date.now(),
-      texto: this.nuevaTareaTexto.trim(),
-      completada: false
-    });
+    if (this.nuevaTareaTexto.trim() !== '') {
+      this.tareasPersonales.unshift({
+        id: Date.now(),
+        texto: this.nuevaTareaTexto.trim(),
+        completada: false
+      });
 
-    await this.tareasStorage.guardarTareas(this.tareasPersonales);
+      await this.tareasStorage.guardarTareas(this.tareasPersonales);
+    }
 
+    this.mostrarModalAgregar = false;
     this.cdr.detectChanges();
   }
-
-  this.mostrarModalAgregar = false;
-}
 
   abrirModalEliminar(id: number, event: Event) {
     event.preventDefault(); event.stopPropagation();

@@ -1,15 +1,29 @@
-<ion-content style="--background: #F4F4F4;">
-  <div style="padding: 20px; padding-top: 40px;">
-    
-    <div style="display: flex; align-items: center; margin-bottom: 20px;">
-      <h1 style="font-size: 26px; font-weight: 900; color: black; margin: 0; text-transform: uppercase;">Tech News 📰</h1>
+<ion-content [fullscreen]="true" style="--background: #f4f5f8; position: relative;">
+  <div style="background-color: #3880ff; padding: 40px 20px 60px 20px; border-bottom: 3px solid #1a1a1a; border-radius: 0 0 24px 24px;">
+    <div style="font-weight: 900; font-style: italic; font-size: 22px; color: #ffffff; display: flex; align-items: center; margin-bottom: 15px;">
+      <ion-icon name="cube" style="margin-right: 8px;"></ion-icon>
+      ProjectWizard
+    </div>
+    <h1 style="margin: 0 0 5px 0; font-weight: 900; font-size: 26px; color: #ffffff; letter-spacing: -0.5px;">Tech News 📰</h1>
+    <p style="margin: 0; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9);">Mantente al día con la tecnología</p>
+  </div>
+
+  <div style="padding: 0 20px 20px 20px; margin-top: -35px; position: relative; z-index: 10; color: black !important;">
+    <div style="margin-bottom: 20px;">
+      <!-- Alerta de Notificación -->
+      <div *ngIf="mostrarAlertaPantalla" style="background-color: #d4edda; color: #155724; border: 2px solid #1a1a1a; border-radius: 12px; padding: 12px; font-size: 12px; font-weight: bold; box-shadow: 4px 4px 0px #1a1a1a; text-align: center; margin-bottom: 10px;">
+        {{ mensajeNotificacion }}
+      </div>
+
+      <div class="offline-banner" *ngIf="!isOnline" style="background-color: #ffcccc; color: #cc0000; border: 2px solid #1a1a1a; border-radius: 12px; padding: 12px; font-size: 12px; font-weight: bold; box-shadow: 4px 4px 0px #1a1a1a; text-align: center; margin-bottom: 10px;">
+        ● Modo Offline: Sin conexión a internet
+      </div>
     </div>
 
     <div *ngIf="cargando" style="text-align: center; margin-top: 60px;">
       <ion-spinner name="crescent" style="color: black; width: 40px; height: 40px;"></ion-spinner>
       <p style="font-weight: 800; color: black; margin-top: 15px;">Cargando artículos...</p>
     </div>
-
     <div *ngIf="!cargando">
       <div *ngFor="let noticia of noticias" style="background: white; border: 3px solid black; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 4px 4px 0px black;">
         
@@ -34,4 +48,13 @@
     </div>
 
   </div>
+
+  <div *ngIf="mostrarModalOffline" style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 99999; padding: 20px;">
+    <div style="background: white; border: 3px solid #1a1a1a; border-radius: 16px; padding: 20px; width: 100%; max-width: 260px; box-shadow: 5px 5px 0px #1a1a1a; text-align: center;">
+      <h2 style="font-size: 14px; font-weight: 800; color: black; margin-bottom: 10px;">ESTÁS DESCONECTADO</h2>
+      <p style="font-size: 11px; color: #555; margin-bottom: 16px; line-height: 1.4;">Solo podrás ver las noticias que se hayan cargado en caché previamente.</p>
+      <button (click)="cerrarModal()" style="background: #1a1a1a; color: white; border: 2px solid #1a1a1a; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: 2px 2px 0px #666;">ENTENDIDO</button>
+    </div>
+  </div>
+
 </ion-content>
