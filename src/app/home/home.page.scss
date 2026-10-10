@@ -1,160 +1,258 @@
-ion-content {
-  --background: #fafafa;
+.neo-header {
+  background-color: #3880ff;
+  padding: 40px 20px 60px 20px;
+  border-bottom: 3px solid #1a1a1a;
+  border-radius: 0 0 24px 24px;
+  position: relative;
 }
 
-.neo-header {
-  font-size: 24px;
-  font-weight: 900;
-  font-style: italic;
-  padding: 20px 20px 10px 20px;
+.neo-content-wrapper {
+  padding: 0 20px 20px 20px;
+  margin-top: -35px;
+  position: relative;
+  z-index: 10;
   color: black;
 }
 
-.offline-banner {
+.neo-logo {
+  font-weight: 900;
+  font-style: italic;
+  font-size: 22px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.neo-title {
+  margin: 0 0 5px 0;
+  font-weight: 900;
+  font-size: 26px;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.neo-subtitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 900;
+  margin-bottom: 15px;
+  color: black;
+  text-transform: uppercase;
+}
+
+.neo-card, .member-card {
   background: white;
-  border: 2px solid #b3261e;
-  border-radius: 12px;
-  padding: 10px 15px;
-  margin: 15px 20px;
-  font-size: 12px;
-  font-weight: 700;
+  border: 3px solid #1a1a1a;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 4px 4px 0px #1a1a1a;
+  margin-bottom: 20px;
+}
+.member-card { padding: 16px; margin-bottom: 15px; }
+
+.empty-state {
+  background: white;
+  border: 3px dashed #1a1a1a;
+  border-radius: 16px;
   text-align: center;
-  color: #b3261e;
+  padding: 30px 20px;
+  color: #666;
+  font-weight: 900;
+}
+
+.btn-logout {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  background: white;
+  color: black;
+  border: 3px solid #1a1a1a;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 900;
+  font-size: 10px;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0px #1a1a1a;
+  cursor: pointer;
+}
+
+.btn-edit-project {
+  background: #ffdf70;
+  border: 2px solid #1a1a1a;
+  border-radius: 8px;
+  padding: 6px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px #1a1a1a;
+}
+
+.action-buttons-container { display: flex; gap: 12px; margin-bottom: 25px; }
+
+.btn-primary-action, .btn-secondary-action {
+  flex: 1;
+  border: 3px solid #1a1a1a;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 900;
+  font-size: 12px;
+  box-shadow: 4px 4px 0px #1a1a1a;
+  cursor: pointer;
+  color: black;
+}
+.btn-primary-action { background: #88d49e; }
+.btn-secondary-action { background: #bde0fe; }
+
+.btn-modal-cancel, .btn-modal-save, .btn-modal-save-green, .btn-modal-delete {
+  flex: 1;
+  border: 3px solid #1a1a1a;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 900;
+  box-shadow: 2px 2px 0px #1a1a1a;
+  cursor: pointer;
+  color: black;
+}
+.btn-modal-cancel { background: white; }
+.btn-modal-save { background: #ffdf70; }
+.btn-modal-save-green { background: #88d49e; }
+.btn-modal-delete { background: #ff6b6b; color: white; }
+
+.progress-track, .progress-track-small {
+  width: 100%;
+  height: 12px;
+  background: #f4f4f4;
+  border: 2px solid #1a1a1a;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.progress-track-small { height: 8px; border-radius: 4px; }
+
+.progress-fill-blue, .progress-fill-green {
+  height: 100%;
+  border-right: 2px solid #1a1a1a;
+  transition: width 0.5s ease;
+}
+.progress-fill-blue { background: #3880ff; }
+.progress-fill-green { background: #88d49e; }
+
+.neo-avatar {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #1a1a1a;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  &::before {
-    content: '';
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    background-color: #b3261e;
-    border-radius: 50%;
-  }
+  font-size: 14px;
+  font-weight: 900;
+  background: #ffdf70;
+  color: black;
+  box-shadow: 2px 2px 0px #1a1a1a;
+  flex-shrink: 0;
 }
 
-.neo-card {
-  background: #eaeaea;
-  border: 2px solid #1a1a1a;
-  border-radius: 16px;
-  padding: 20px;
-  margin: 20px;
-  
-  .subtitle { font-size: 12px; font-weight: bold; color: #555; }
-  .title { font-size: 22px; font-weight: 900; font-style: italic; color: black; margin: 5px 0 20px 0; }
-}
-
-.neo-progress-bar {
-  height: 8px;
-  background: white;
-  border: 2px solid #1a1a1a;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 5px;
-  
-  .fill { height: 100%; background: #1a1a1a; }
-}
-
-.progress-text {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  font-weight: bold;
-  color: #555;
-}
-
-.team-section {
-  margin: 20px;
-  
-  .team-title { font-weight: bold; margin-bottom: 15px; color: black; font-size: 14px; }
-  
-  .team-member {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    
-    .avatar {
-      width: 45px;
-      height: 45px;
-      border: 2px solid #1a1a1a;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 15px;
-      margin-right: 15px;
-      background: white;
-      color: black;
-    }
-    
-    .info {
-      flex: 1;
-      .name { font-weight: 600; font-size: 14px; color: black; }
-      .role { font-size: 11px; font-weight: 600; color: #555; }
-    }
-  }
-}
-
-.neo-button {
+.member-role-badge {
+  font-size: 9px;
+  font-weight: 900;
   background: #1a1a1a;
   color: white;
-  margin: 30px 20px;
-  padding: 15px;
-  border-radius: 25px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.modal-transparente {
-  --background: transparent;
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  border: 1px solid #1a1a1a;
 }
 
 .modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
+  z-index: 100000;
   padding: 20px;
 }
 
-.neo-modal-box {
+.modal-content, .modal-content-wide, .modal-content-small {
   background: white;
-  border: 2px solid #1a1a1a;
-  padding: 30px 20px;
-  text-align: center;
-  box-shadow: 5px 5px 0px #1a1a1a;
-  width: 90%;
-  border-radius: 12px;
-  
-  h2 { 
-    font-weight: 800; 
-    font-size: 18px; 
-    margin-bottom: 15px; 
-    padding-bottom: 15px; 
-    border-bottom: 3.0px solid #020202; 
-    color: #000000; 
-  }
-  
-  p { 
-    font-size: 14px; 
-    margin-bottom: 25px; 
-    font-weight: 500;
-    color: #444;
-    line-height: 1.5;
-  }
-  
-  .modal-btn {
-    border: 2px solid #1a1a1a;
-    background: white;
-    font-weight: bold;
-    padding: 12px 0;
-    width: 100%;
-    font-size: 14px;
-    color: #1a1a1a;
-    border-radius: 8px;
-  }
+  border: 4px solid #1a1a1a;
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 6px 6px 0px #1a1a1a;
 }
+.modal-content-wide { max-width: 320px; }
+.modal-content-small { max-width: 260px; padding: 20px; border-width: 3px; box-shadow: 5px 5px 0px #1a1a1a; text-align: center; }
+
+.modal-title, .modal-title-small {
+  font-size: 16px; 
+  font-weight: 900; 
+  margin-bottom: 16px; 
+  text-align: center;
+  color: black; 
+}
+.modal-title-small { font-size: 14px; font-weight: 800; margin-bottom: 10px; }
+
+.modal-text {
+  font-size: 11px;
+  color: #555;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.neo-input {
+  width: 100%;
+  padding: 12px;
+  border: 3px solid #1a1a1a;
+  border-radius: 8px;
+  font-weight: bold;
+  background: #f4f4f4;
+  outline: none;
+  color: black;
+  box-sizing: border-box;
+}
+
+.roles-list-container {
+  max-height: 250px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-right: 5px;
+}
+
+.role-item-card {
+  background: #f4f4f4;
+  border: 2px solid #1a1a1a;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.role-item-name {
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 6px;
+  color: black; 
+}
+
+.alert-success, .alert-warning, .offline-banner {
+  border: 2px solid #1a1a1a;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 4px 4px 0px #1a1a1a;
+  text-align: center;
+}
+.alert-success { background-color: #d4edda; color: #155724; margin-bottom: 10px; }
+.alert-warning { background-color: #ffe8d6; color: #d97706; margin-bottom: 10px; }
+.offline-banner { background-color: #ffcccc; color: #cc0000; margin-bottom: 20px; }

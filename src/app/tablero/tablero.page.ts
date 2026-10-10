@@ -1,39 +1,55 @@
 import { Component, OnInit, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
 import { Network, ConnectionStatus } from '@capacitor/network';
+import { TareasStorageService } from '../tareas/tareas-storage.service';
 
 @Component({
   selector: 'app-tablero',
-  templateUrl: './tablero.page.html',
+  templateUrl: './tablero.page.html', 
   styleUrls: ['./tablero.page.scss'],
   standalone: false,
 })
-export class TableroPage implements OnInit, OnDestroy {
-  filtroActual: string = 'enProceso';
+export class TableroPage implements OnInit, OnDestroy { 
+  filtroActual: string = 'porHacer';
   isOnline: boolean = true;
   mostrarModalOffline = false;
-
   mensajeNotificacion: string = '';
   mostrarAlertaPantalla: boolean = false;
   private timeoutAlerta: any;
-
-  listaTareas = [
-    { id: '#01', titulo: 'Implementar autenticación', estado: 'enProceso', prioridad: 'ALTA', avatar: 'ST', responsable: 'Stevenson Tavárez' },
-    { id: '#02', titulo: 'Componentes de navegación', estado: 'enProceso', prioridad: 'Media', avatar: 'JP', responsable: 'José Pérez' },
-    { id: '#03', titulo: 'Revisión general de diseño', estado: 'enProceso', prioridad: 'Baja', avatar: 'UT', responsable: 'Uriel Tejada' },
-    { id: '#01', titulo: 'Diseñar interfaz inicial', estado: 'porHacer', prioridad: 'ALTA', avatar: 'UT', responsable: 'Uriel Tejada' },
-    { id: '#02', titulo: 'Estructurar base de datos local', estado: 'porHacer', prioridad: 'Media', avatar: 'JG', responsable: 'Junior Gómez' },
-    { id: '#03', titulo: 'Definir casos de prueba QA', estado: 'porHacer', prioridad: 'Baja', avatar: 'DP', responsable: 'Darlenny Pimentel' },
-    { id: '#01', titulo: 'Configurar servidor y dependencias', estado: 'hecho', prioridad: 'ALTA', avatar: 'JG', responsable: 'Junior Gómez' },
-    { id: '#02', titulo: 'Crear repositorio en Git y ramas', estado: 'hecho', prioridad: 'Media', avatar: 'ST', responsable: 'Stevenson Tavárez' }
-  ];
+  listaTareas: any[] = []; 
+  mostrarModalPrioridad = false;
+  tareaSeleccionadaParaPrioridad: any = null;
 
   private onlineListenerHandler = () => this.ngZone.run(() => this.actualizarEstado(true));
   private offlineListenerHandler = () => this.ngZone.run(() => this.actualizarEstado(false));
 
   constructor(
     private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private tareasStorage: TareasStorageService
   ) {}
+
+  async ionViewWillEnter() {
+    await this.cargarTareasDesdeAlmacenamiento();
+  }
+
+  async cargarTareasDesdeAlmacenamiento() {
+    const tareasGuardadas = await this.tareasStorage.obtenerTareas();
+    
+    this.listaTareas = tareasGuardadas.map((t: any) => {
+      if (t.completada && t.estado !== 'hecho') t.estado = 'hecho';
+      if (!t.completada && t.estado === 'hecho') t.estado = 'porHacer';
+      
+      return {
+        ...t,
+        estado: t.estado || 'porHacer',
+        prioridad: t.prioridad || 'Media',
+        avatar: t.avatar || 'UT',
+        responsable: t.responsable || 'Uriel Tejada'
+      };
+    });
+
+    this.cdr.detectChanges();
+  }
 
   async ngOnInit() {
     try {
@@ -97,5 +113,44 @@ export class TableroPage implements OnInit, OnDestroy {
 
   cambiarFiltro(estado: string) {
     this.filtroActual = estado;
+  }
+
+  getIdCorto(id: any) {
+    if (!id) return '#000';
+    const str = id.toString();
+    return str.length > 4 ? '#' + str.slice(-4) : '#' + str; 
+  }
+
+  async cambiarEstado(tarea: any, nuevoEstado: string) {
+    tarea.estado = nuevoEstado;
+    
+    if (nuevoEstado === 'hecho') {
+      tarea.completada = true;
+    } else {
+      tarea.completada = false;
+    }
+
+    await this.tareasStorage.guardarTareas(this.listaTareas);
+    this.cdr.detectChanges();
+  }
+
+  abrirModalPrioridad(tarea: any) {
+    this.tareaSeleccionadaParaPrioridad = tarea;
+    this.mostrarModalPrioridad = true;
+    this.cdr.detectChanges();
+  }
+
+  cerrarModalPrioridad() {
+    this.tareaSeleccionadaParaPrioridad = null;
+    this.mostrarModalPrioridad = false;
+    this.cdr.detectChanges();
+  }
+
+  async seleccionarPrioridad(nuevaPrioridad: string) {
+    if (this.tareaSeleccionadaParaPrioridad) {
+      this.tareaSeleccionadaParaPrioridad.prioridad = nuevaPrioridad;
+      await this.tareasStorage.guardarTareas(this.listaTareas);
+    }
+    this.cerrarModalPrioridad();
   }
 }

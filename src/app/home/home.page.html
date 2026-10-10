@@ -1,119 +1,142 @@
-<ion-content [fullscreen]="true" style="--background: #f4f4f4; position: relative;">
-  <div style="background-color: #3880ff; padding: 40px 20px 60px 20px; border-bottom: 3px solid #1a1a1a; border-radius: 0 0 24px 24px;">
-    <div style="font-weight: 900; font-style: italic; font-size: 22px; color: #ffffff; display: flex; align-items: center; margin-bottom: 15px;">
+<ion-content [fullscreen]="true" style="--background: #f4f5f8; position: relative;">
+  
+  <div class="neo-header">
+    <button (click)="cerrarSesion()" class="btn-logout">
+      Cerrar sesión
+    </button>
+
+    <div class="neo-logo">
       <ion-icon name="cube" style="margin-right: 8px;"></ion-icon>
       ProjectWizard
     </div>
-    <h1 style="margin: 0 0 5px 0; font-weight: 900; font-size: 26px; color: #ffffff; letter-spacing: -0.5px;">Hola, bienvenido de vuelta </h1>
-    <p style="margin: 0; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9);">Aquí está el avance de tu equipo</p>
+    <h1 class="neo-title">Dashboard</h1>
+    <p class="neo-subtitle">Control global del proyecto</p>
   </div>
-  <div style="padding: 0 20px 20px 20px; margin-top: -35px; position: relative; z-index: 10; color: black !important;">
+
+  <div class="neo-content-wrapper">
     
-    <div *ngIf="mostrarAlertaPantalla" style="background-color: #d4edda; color: #155724; border: 2px solid #1a1a1a; border-radius: 10px; padding: 12px; font-size: 12px; font-weight: bold; box-shadow: 3px 3px 0px #1a1a1a; text-align: center; margin-bottom: 15px;">
+    <div *ngIf="mostrarAlertaPantalla" [ngClass]="{'alert-success': tipoAlerta === 'success', 'alert-warning': tipoAlerta === 'warning'}">
       {{ mensajeNotificacion }}
     </div>
 
-    <div class="offline-banner" *ngIf="!isOnline" style="background-color: #ffcccc; color: #cc0000; border: 2px solid #1a1a1a; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: bold; box-shadow: 3px 3px 0px #1a1a1a; text-align: center; margin-bottom: 15px;">
+    <div class="offline-banner" *ngIf="!isOnline">
       ● Modo Offline: Sin conexión a internet
     </div>
 
-    <div style="background: #ffffff; border: 3px solid #1a1a1a; border-radius: 16px; padding: 20px; margin-bottom: 25px; box-shadow: 4px 4px 0px #1a1a1a;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-        <span style="font-size: 10px; font-weight: 900; color: #3880ff; background: #e0f2fe; padding: 4px 8px; border: 2px solid #1a1a1a; border-radius: 6px;">PROYECTO ACTIVO</span>
-        <span style="font-size: 16px; font-weight: 900; color: black;">70%</span>
+    <div class="neo-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+        <div>
+          <div style="font-size: 12px; color: #666; font-weight: bold; margin-bottom: 4px;">Proyecto Actual</div>
+          <div style="font-size: 20px; font-weight: 900; line-height: 1.2;">
+            {{ nombreProyecto }}
+          </div>
+        </div>
+        <button (click)="abrirModalProyecto()" class="btn-edit-project">✏️</button>
       </div>
-      
-      <div style="font-size: 22px; font-weight: 900; font-style: italic; color: black; margin-bottom: 15px;">App Móvil v1.0</div>
-      
-      <div style="height: 10px; background: #f4f4f4; border: 2px solid #1a1a1a; border-radius: 5px; overflow: hidden; margin-bottom: 8px;">
-        <div style="height: 100%; background: #3880ff; width: 70%; border-right: 2px solid #1a1a1a;"></div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="font-size: 13px; font-weight: 900;">Progreso Global</span>
+        <span style="font-size: 14px; font-weight: 900; color: #3880ff;">{{ progresoGlobal }}%</span>
       </div>
-      
-      <div style="display: flex; justify-content: space-between; font-size: 11px; color: #666; font-weight: bold;">
-        <span>12 Completadas</span>
-        <span>20 en total</span>
+      <div class="progress-track">
+        <div class="progress-fill-blue" [style.width.%]="progresoGlobal"></div>
       </div>
     </div>
 
-    <div style="font-size: 16px; font-weight: 900; color: black; margin-bottom: 15px; text-transform: uppercase;">
-      Equipo - 5 Miembros
+    <div class="action-buttons-container">
+      <button (click)="mostrarModalAgregar = true" class="btn-primary-action">+ Miembro</button>
+      <button (click)="mostrarModalRoles = true" class="btn-secondary-action">Roles</button>
     </div>
 
-    <div style="display: flex; align-items: center; background: #ffffff; border: 2px solid #1a1a1a; border-radius: 12px; padding: 12px; margin-bottom: 15px; box-shadow: 3px 3px 0px #1a1a1a;">
-      <div style="width: 45px; height: 45px; border: 2px solid #1a1a1a; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; font-size: 14px; color: #3880ff; background: #e0f2fe; margin-right: 15px; flex-shrink: 0;">UT</div>
-      <div style="flex-grow: 1;">
-        <div style="font-size: 14px; font-weight: 900; color: black; margin-bottom: 2px;">Uriel Tejada</div>
-        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-          <span style="font-size: 10px; color: #666; font-weight: bold;">UX/UI - ID: 100074352</span>
-          <span style="font-size: 12px; font-weight: 900; color: black; margin-bottom: 5px;">91%</span>
-        </div>
-        <div style="height: 8px; background: #f4f4f4; border: 2px solid #1a1a1a; border-radius: 4px; overflow: hidden;">
-          <div style="height: 100%; background: #3880ff; width: 91%; border-right: 2px solid #1a1a1a;"></div>
-        </div>
-      </div>
-    </div>
+    <div class="section-title">Desempeño del Equipo</div>
     
-    <div style="display: flex; align-items: center; background: #ffffff; border: 2px solid #1a1a1a; border-radius: 12px; padding: 12px; margin-bottom: 15px; box-shadow: 3px 3px 0px #1a1a1a;">
-      <div style="width: 45px; height: 45px; border: 2px solid #1a1a1a; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; font-size: 14px; color: #3880ff; background: #e0f2fe; margin-right: 15px; flex-shrink: 0;">JG</div>
-      <div style="flex-grow: 1;">
-        <div style="font-size: 14px; font-weight: 900; color: black; margin-bottom: 2px;">Junior Gómez</div>
-        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-          <span style="font-size: 10px; color: #666; font-weight: bold;">Manager - ID: 100077484</span>
-          <span style="font-size: 12px; font-weight: 900; color: black; margin-bottom: 5px;">60%</span>
-        </div>
-        <div style="height: 8px; background: #f4f4f4; border: 2px solid #1a1a1a; border-radius: 4px; overflow: hidden;">
-          <div style="height: 100%; background: #3880ff; width: 60%; border-right: 2px solid #1a1a1a;"></div>
-        </div>
-      </div>
+    <div *ngIf="equipoProgreso.length === 0" class="empty-state">
+      No hay miembros registrados aún.
     </div>
 
-    <div style="display: flex; align-items: center; background: #ffffff; border: 2px solid #1a1a1a; border-radius: 12px; padding: 12px; margin-bottom: 15px; box-shadow: 3px 3px 0px #1a1a1a;">
-      <div style="width: 45px; height: 45px; border: 2px solid #1a1a1a; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; font-size: 14px; color: #3880ff; background: #e0f2fe; margin-right: 15px; flex-shrink: 0;">JP</div>
-      <div style="flex-grow: 1;">
-        <div style="font-size: 14px; font-weight: 900; color: black; margin-bottom: 2px;">José Pérez</div>
-        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-          <span style="font-size: 10px; color: #666; font-weight: bold;">Frontend - ID: 100016540</span>
-          <span style="font-size: 12px; font-weight: 900; color: black; margin-bottom: 5px;">45%</span>
+    <div style="display: flex; flex-direction: column; gap: 15px;">
+      <div *ngFor="let miembro of equipoProgreso" class="member-card">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+          <div class="neo-avatar">{{ miembro.avatar }}</div>
+          <div style="flex: 1;">
+            <div style="font-size: 14px; font-weight: 900; margin-bottom: 2px;">{{ miembro.nombre }}</div>
+            <div class="member-role-badge">{{ miembro.rol }}</div>
+            <div style="font-size: 11px; color: #666; font-weight: bold;">{{ miembro.completadas }} de {{ miembro.total }} tareas</div>
+          </div>
+          <div style="font-size: 16px; font-weight: 900; margin-right: 4px;">{{ miembro.progreso }}%</div>
+          <div (click)="confirmarEliminarMiembro(miembro.nombre)" style="width: 28px; height: 28px; background: #ff6b6b; border: 2px solid #1a1a1a; border-radius: 6px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 2px 2px 0px #1a1a1a; flex-shrink: 0;" title="Eliminar miembro">
+            <span style="color: white; font-weight: 900; font-size: 12px;">✕</span>
+          </div>
         </div>
-        <div style="height: 8px; background: #f4f4f4; border: 2px solid #1a1a1a; border-radius: 4px; overflow: hidden;">
-          <div style="height: 100%; background: #3880ff; width: 45%; border-right: 2px solid #1a1a1a;"></div>
-        </div>
-      </div>
-    </div>
-
-    <div style="display: flex; align-items: center; background: #ffffff; border: 2px solid #1a1a1a; border-radius: 12px; padding: 12px; margin-bottom: 15px; box-shadow: 3px 3px 0px #1a1a1a;">
-      <div style="width: 45px; height: 45px; border: 2px solid #1a1a1a; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; font-size: 14px; color: #3880ff; background: #e0f2fe; margin-right: 15px; flex-shrink: 0;">ST</div>
-      <div style="flex-grow: 1;">
-        <div style="font-size: 14px; font-weight: 900; color: black; margin-bottom: 2px;">Stevenson Tavárez</div>
-        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-          <span style="font-size: 10px; color: #666; font-weight: bold;">Backend - ID: 100035630</span>
-          <span style="font-size: 12px; font-weight: 900; color: black; margin-bottom: 5px;">91%</span>
-        </div>
-        <div style="height: 8px; background: #f4f4f4; border: 2px solid #1a1a1a; border-radius: 4px; overflow: hidden;">
-          <div style="height: 100%; background: #3880ff; width: 91%; border-right: 2px solid #1a1a1a;"></div>
-        </div>
-      </div>
-    </div>
-
-    <div style="display: flex; align-items: center; background: #ffffff; border: 2px solid #1a1a1a; border-radius: 12px; padding: 12px; margin-bottom: 15px; box-shadow: 3px 3px 0px #1a1a1a;">
-      <div style="width: 45px; height: 45px; border: 2px solid #1a1a1a; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; font-size: 14px; color: #3880ff; background: #e0f2fe; margin-right: 15px; flex-shrink: 0;">DP</div>
-      <div style="flex-grow: 1;">
-        <div style="font-size: 14px; font-weight: 900; color: black; margin-bottom: 2px;">Darlenny Pimentel</div>
-        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-          <span style="font-size: 10px; color: #666; font-weight: bold;">QA - ID: 100070231</span>
-          <span style="font-size: 12px; font-weight: 900; color: black; margin-bottom: 5px;">75%</span>
-        </div>
-        <div style="height: 8px; background: #f4f4f4; border: 2px solid #1a1a1a; border-radius: 4px; overflow: hidden;">
-          <div style="height: 100%; background: #3880ff; width: 75%; border-right: 2px solid #1a1a1a;"></div>
+        
+        <div class="progress-track-small">
+          <div class="progress-fill-green" [style.width.%]="miembro.progreso"></div>
         </div>
       </div>
     </div>
   </div>
-  <div *ngIf="mostrarModalOffline" style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 99999; padding: 20px;">
-    <div style="background: white; border: 3px solid #1a1a1a; border-radius: 16px; padding: 20px; width: 100%; max-width: 260px; box-shadow: 5px 5px 0px #1a1a1a; text-align: center;">
-      <h2 style="font-size: 14px; font-weight: 800; color: black; margin-bottom: 10px;">ESTÁS DESCONECTADO</h2>
+
+  <div *ngIf="mostrarModalConfirmarEliminar" class="modal-overlay">
+    <div class="modal-content-small">
+      <h2 class="modal-title-small">¿ELIMINAR MIEMBRO?</h2>
+      <p class="modal-text">¿Estás seguro que quieres eliminar a <b>{{ miembroAEliminar }}</b> del equipo?</p>
+      <div style="display: flex; gap: 10px;">
+        <button (click)="mostrarModalConfirmarEliminar = false" class="btn-modal-cancel">Cancelar</button>
+        <button (click)="ejecutarEliminarMiembro()" class="btn-modal-delete">Eliminar</button>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="mostrarModalProyecto" class="modal-overlay">
+    <div class="modal-content">
+      <h2 class="modal-title">NOMBRE DEL PROYECTO</h2>
+      <input type="text" [(ngModel)]="tempNombreProyecto" placeholder="Ej: App móvil v1.0" class="neo-input" style="margin-bottom: 20px;">
+      <div style="display: flex; gap: 10px;">
+        <button (click)="mostrarModalProyecto = false" class="btn-modal-cancel">Cancelar</button>
+        <button (click)="guardarNombreProyecto()" class="btn-modal-save">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="mostrarModalAgregar" class="modal-overlay">
+    <div class="modal-content">
+      <h2 class="modal-title">NUEVO MIEMBRO</h2>
+      
+      <label style="font-size: 12px; font-weight: 900; color: black;">Nombre completo:</label>
+      <input type="text" [(ngModel)]="nuevoMiembroNombre" placeholder="Ej: Uriel Tejada" class="neo-input" style="margin-bottom: 12px; margin-top: 4px;">
+      
+      <label style="font-size: 12px; font-weight: 900; color: black;">Rol en el equipo:</label>
+      <input type="text" [(ngModel)]="nuevoMiembroRol" placeholder="Ej: UX/UI" class="neo-input" style="margin-bottom: 20px; margin-top: 4px;">
+      
+      <div style="display: flex; gap: 10px;">
+        <button (click)="mostrarModalAgregar = false" class="btn-modal-cancel">Cancelar</button>
+        <button (click)="guardarNuevoMiembro()" class="btn-modal-save-green">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="mostrarModalRoles" class="modal-overlay" style="z-index: 100000;">
+    <div class="modal-content-wide">
+      <h2 class="modal-title">EDITAR ROLES</h2>
+      
+      <div class="roles-list-container">
+        <div *ngFor="let m of miembrosEquipo; let i = index" class="role-item-card">
+          <div class="role-item-name">{{ m.nombre }}</div>
+          <input type="text" [(ngModel)]="miembrosEquipo[i].rol" placeholder="Rol" class="neo-input" style="padding: 8px; font-size: 12px; border-width: 2px; background: white;">
+        </div>
+      </div>
+      
+      <button (click)="guardarRoles()" class="btn-modal-save" style="width: 100%;">
+        Guardar Cambios
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="mostrarModalOffline" class="modal-overlay" style="z-index: 99999;">
+    <div class="modal-content" style="max-width: 260px; text-align: center; border-width: 3px;">
+      <h2 style="font-size: 14px; font-weight: 800; margin-bottom: 10px; color: black;">ESTÁS DESCONECTADO</h2>
       <p style="font-size: 11px; color: #555; margin-bottom: 16px; line-height: 1.4;">Tus tareas se guardarán localmente y se sincronizarán al recuperar la conexión.</p>
-      <button (click)="cerrarModal()" style="background: #1a1a1a; color: white; border: 2px solid #1a1a1a; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: 2px 2px 0px #666;">ENTENDIDO</button>
+      <button (click)="mostrarModalOffline = false" style="background: #1a1a1a; color: white; border: 2px solid #1a1a1a; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">ENTENDIDO</button>
     </div>
   </div>
 

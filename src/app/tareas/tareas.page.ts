@@ -23,17 +23,14 @@ export class TareasPage implements OnInit {
   
   mostrarModalAgregar = false;
   nuevaTareaTexto = '';
+  nuevaTareaPrioridad = 'Media';
   mostrarModalEliminar = false;
   tareaAEliminarId: number | null = null;
   
   tareasSeleccionadas: number[] = [];
   mostrarModalCompartir = false;
 
-  tareasPersonales: any[] = [
-    { id: 1, texto: 'Implementar autenticación JWT', completada: false },
-    { id: 2, texto: 'Crear componente TaskCard', completada: false },
-    { id: 3, texto: 'Integrar API de autenticación', completada: true }
-  ];
+  tareasPersonales: any[] = [];
 
   constructor(
     private ngZone: NgZone,
@@ -145,15 +142,26 @@ export class TareasPage implements OnInit {
     this.tareasSeleccionadas = []; 
   }
 
-  abrirModalAgregar() { this.nuevaTareaTexto = ''; this.mostrarModalAgregar = true; }
+  abrirModalAgregar() { 
+    this.nuevaTareaTexto = ''; 
+    this.nuevaTareaPrioridad = 'Media'; 
+    this.mostrarModalAgregar = true; 
+  }
   cancelarAgregar() { this.mostrarModalAgregar = false; }
   
   async confirmarAgregar() {
     if (this.nuevaTareaTexto.trim() !== '') {
+      const nombreLogueado = this.usuarioActivo?.nombre || 'Usuario Desconocido';
+      const iniciales = nombreLogueado.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase();
+
       this.tareasPersonales.unshift({
         id: Date.now(),
         texto: this.nuevaTareaTexto.trim(),
-        completada: false
+        completada: false,
+        estado: 'porHacer',            
+        prioridad: this.nuevaTareaPrioridad, 
+        responsable: nombreLogueado,   
+        avatar: iniciales              
       });
 
       await this.tareasStorage.guardarTareas(this.tareasPersonales);

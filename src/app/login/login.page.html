@@ -1,55 +1,37 @@
-<ion-content class="custom-bg">
+<ion-content [fullscreen]="true" style="--background: #f4f5f8;">
   <div class="login-container">
     
     <div class="header-section">
-      <ion-icon name="cube" class="main-icon" color="primary"></ion-icon>
+      <div class="logo-box">
+        <ion-icon name="cube"></ion-icon>
+      </div>
       <h1 class="app-title">ProjectWizard</h1>
-      <p class="app-subtitle">Gestión de Equipos de Desarrollo</p>
+      <p class="app-subtitle">Gestión de Equipos</p>
     </div>
 
-    <ion-card class="login-card">
-      <ion-card-content>
-        <ion-list lines="none">
-          
-          <ion-item class="input-item">
-            <ion-icon name="person-outline" slot="start" color="medium"></ion-icon>
-            <ion-input 
-              label="Usuario" 
-              labelPlacement="floating" 
-              [(ngModel)]="username" 
-              type="text" 
-              placeholder="Ej: Pedro">
-            </ion-input>
-          </ion-item>
+    <div *ngIf="mostrarError" class="alert-danger" (click)="mostrarError = false">
+      Usuario o contraseña incorrectos
+    </div>
 
-          <ion-item class="input-item">
-            <ion-icon name="lock-closed-outline" slot="start" color="medium"></ion-icon>
-            <ion-input 
-              label="Contraseña" 
-              labelPlacement="floating" 
-              [(ngModel)]="password" 
-              type="password" 
-              placeholder="Tu contraseña">
-            </ion-input>
-          </ion-item>
+    <div class="neo-login-card">
+      <label class="neo-label">Usuario</label>
+      <input 
+        type="text" 
+        [(ngModel)]="username" 
+        placeholder="Ej: uriel" 
+        class="neo-input">
 
-        </ion-list>
+      <label class="neo-label">Contraseña</label>
+      <input 
+        type="password" 
+        [(ngModel)]="password" 
+        placeholder="Tu contraseña" 
+        class="neo-input">
 
-        <ion-button expand="block" shape="round" class="login-button" (click)="ingresar()">
-          <ion-icon name="log-in-outline" slot="start"></ion-icon>
-          Iniciar Sesión
-        </ion-button>
-      </ion-card-content>
-    </ion-card>
+      <button class="neo-btn-login" (click)="ingresar()">
+        Entrar
+      </button>
+    </div>
 
   </div>
-
-  <ion-toast 
-    [isOpen]="mostrarError" 
-    message="Usuario o contraseña incorrectos" 
-    duration="2000" 
-    (didDismiss)="mostrarError = false" 
-    color="danger"
-    icon="alert-circle-outline">
-  </ion-toast>
 </ion-content>
