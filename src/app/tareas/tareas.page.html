@@ -1,10 +1,41 @@
+
 <ion-content [fullscreen]="true" style="--background: #f4f5f8; position: relative;">
-  
+
   <div class="neo-header">
+    <div class="media-actions">
+      <button type="button" class="media-action-btn camera-btn" (click)="abrirCamara()">
+        <ion-icon name="camera-outline"></ion-icon>
+        <span>Cámara</span>
+      </button>
+
+      <button type="button" class="media-action-btn gallery-btn" (click)="abrirMultimedia()">
+        <ion-icon name="images-outline"></ion-icon>
+        <span>Multimedia</span>
+      </button>
+      <button
+  type="button"
+  class="media-action-btn audio-btn"
+  (click)="grabandoAudio ? detenerGrabacionAudio() : iniciarGrabacionAudio()"
+>
+  <ion-icon [name]="grabandoAudio ? 'stop-circle-outline' : 'mic-outline'"></ion-icon>
+  <span>{{ grabandoAudio ? 'Detener audio' : 'Grabar audio' }}</span>
+</button>
+    </div>
+
+    <input
+      #selectorMultimedia
+      type="file"
+      accept="image/*,video/*"
+      multiple
+      hidden
+      (change)="seleccionarMultimedia($event)"
+    />
+
     <div class="neo-logo">
       <ion-icon name="cube" style="margin-right: 8px;"></ion-icon>
       ProjectWizard
     </div>
+
     <h1 class="neo-title">Mis Tareas</h1>
     <p class="neo-subtitle">Gestiona tus asignaciones personales</p>
   </div>
@@ -35,50 +66,100 @@
       <div class="progress-header">
         <div>
           <div class="progress-label">Progreso Diario</div>
-          <div class="progress-stats"><b>{{ tareasCompletadasCount }}</b> de {{ tareasPersonales.length }} completadas</div>
+          <div class="progress-stats">
+            <b>{{ tareasCompletadasCount }}</b> de
+            {{ tareasPersonales.length }} completadas
+          </div>
         </div>
-        <div class="progress-badge">
-          {{ porcentajeProgreso }}%
-        </div>
+        <div class="progress-badge">{{ porcentajeProgreso }}%</div>
       </div>
+
       <div class="progress-track">
         <div class="progress-fill" [style.width.%]="porcentajeProgreso"></div>
       </div>
     </div>
 
+    <div class="section-title">Fotos y videos seleccionados</div>
+
+    <div class="media-preview-container" *ngIf="multimediaSeleccionada.length > 0">
+      <div class="media-preview-item" *ngFor="let media of multimediaSeleccionada">
+
+        <img
+          *ngIf="media.tipo === 'imagen'"
+          [src]="media.url"
+          [alt]="media.nombre"
+          class="media-preview"
+        />
+
+        <video
+          *ngIf="media.tipo === 'video'"
+          [src]="media.url"
+          controls
+          playsinline
+          class="media-preview"
+        ></video>
+
+        <div class="media-file-name">{{ media.nombre }}</div>
+
+        <button
+          type="button"
+          class="media-remove-btn"
+          (click)="quitarMultimedia(media.id)"
+        >
+          Quitar
+        </button>
+      </div>
+    </div>
+
     <div class="section-title">Lista de tareas</div>
-    
+
     <div class="task-list-container">
-      <div *ngFor="let item of tareasPersonales" 
-           (click)="toggleSeleccion(item.id)"
-           [ngClass]="tareasSeleccionadas.includes(item.id) ? 'task-item-selected' : 'task-item'">
-        
+      <div
+        *ngFor="let item of tareasPersonales"
+        (click)="toggleSeleccion(item.id)"
+        [ngClass]="tareasSeleccionadas.includes(item.id) ? 'task-item-selected' : 'task-item'"
+      >
         <div class="task-item-content">
-          <input type="checkbox" 
-                 [(ngModel)]="item.completada" 
-                 (ngModelChange)="actualizarProgreso()" 
-                 (click)="$event.stopPropagation()" 
-                 class="task-checkbox">
-          
-          <span [style.text-decoration]="item.completada ? 'line-through' : 'none'" 
-                [style.color]="item.completada ? '#888' : 'black'" 
-                class="task-title">
+          <input
+            type="checkbox"
+            [(ngModel)]="item.completada"
+            (ngModelChange)="actualizarProgreso()"
+            (click)="$event.stopPropagation()"
+            class="task-checkbox"
+          />
+
+          <span
+            [style.text-decoration]="item.completada ? 'line-through' : 'none'"
+            [style.color]="item.completada ? '#888' : 'black'"
+            class="task-title"
+          >
             {{ item.texto }}
           </span>
         </div>
 
-        <div (click)="abrirModalEliminar(item.id, $event)" class="task-delete-btn">
+        <div
+          (click)="abrirModalEliminar(item.id, $event)"
+          class="task-delete-btn"
+        >
           <span class="task-delete-icon">✕</span>
         </div>
       </div>
+
+      <p *ngIf="tareasPersonales.length === 0">
+        Todavía no tienes tareas. ¡Crea la primera!
+      </p>
     </div>
 
     <div class="actions-container">
       <div (click)="abrirModalAgregar()" class="btn-create-task">
         + Crear Tarea
       </div>
-      
-      <div (click)="abrirModalCompartir()" [style.opacity]="tareasSeleccionadas.length > 0 ? '1' : '0.5'" class="btn-share-task">
+
+      <div
+        (click)="abrirModalCompartir()"
+        [style.opacity]="tareasSeleccionadas.length > 0 ? '1' : '0.5'"
+        class="btn-share-task"
+      >
         Compartir 📤
       </div>
     </div>
@@ -87,40 +168,68 @@
       Guardar datos
     </div>
   </div>
-  
+
   <div *ngIf="mostrarModalCompartir" class="modal-overlay">
     <div class="modal-card">
-      <h2 class="modal-title">Transferir {{ tareasSeleccionadas.length }} Tarea(s)</h2>
+      <h2 class="modal-title">
+        Transferir {{ tareasSeleccionadas.length }} Tarea(s)
+      </h2>
       <p class="modal-subtitle">Selecciona la tecnología a utilizar:</p>
-      
+
       <div class="modal-buttons-column">
         <button (click)="compartirPorBluetooth()" class="btn-modal-bluetooth">
           <span style="font-size: 18px;">🔵</span> Vía Bluetooth
         </button>
-        
+
         <button (click)="compartirPorNFC()" class="btn-modal-nfc">
           <span style="font-size: 18px;">📡</span> Vía NFC
         </button>
-        
-        <button (click)="cerrarModalCompartir()" class="btn-modal-bluetooth" style="background: white; margin-top: 8px; box-shadow: 4px 4px 0px #1a1a1a;">
+
+        <button
+          (click)="cerrarModalCompartir()"
+          class="btn-modal-bluetooth cancel-share"
+        >
           CANCELAR
         </button>
       </div>
     </div>
   </div>
 
-  <div *ngIf="mostrarModalAgregar" class="modal-overlay" style="z-index: 1000;">
+  <div *ngIf="mostrarModalAgregar" class="modal-overlay modal-add">
     <div class="modal-card-left">
       <h2 class="modal-title" style="text-align: center;">NUEVA TAREA</h2>
-      
-      <input type="text" [(ngModel)]="nuevaTareaTexto" placeholder="¿Qué hay que hacer?" class="neo-input">
-      
+
+      <input
+        type="text"
+        [(ngModel)]="nuevaTareaTexto"
+        placeholder="¿Qué hay que hacer?"
+        class="neo-input"
+      />
+
       <div class="priority-selector-container">
         <label class="priority-selector-label">PRIORIDAD:</label>
+
         <div class="priority-options-row">
-          <div (click)="nuevaTareaPrioridad = 'Baja'" [style.background]="nuevaTareaPrioridad === 'Baja' ? '#1a1a1a' : 'white'" [style.color]="nuevaTareaPrioridad === 'Baja' ? 'white' : 'black'" class="priority-option-btn">Baja</div>
-          <div (click)="nuevaTareaPrioridad = 'Media'" [style.background]="nuevaTareaPrioridad === 'Media' ? '#1a1a1a' : 'white'" [style.color]="nuevaTareaPrioridad === 'Media' ? 'white' : 'black'" class="priority-option-btn">Media</div>
-          <div (click)="nuevaTareaPrioridad = 'ALTA'" [style.background]="nuevaTareaPrioridad === 'ALTA' ? '#1a1a1a' : 'white'" [style.color]="nuevaTareaPrioridad === 'ALTA' ? 'white' : 'black'" class="priority-option-btn">ALTA</div>
+          <div
+            (click)="nuevaTareaPrioridad = 'Baja'"
+            [style.background]="nuevaTareaPrioridad === 'Baja' ? '#1a1a1a' : 'white'"
+            [style.color]="nuevaTareaPrioridad === 'Baja' ? 'white' : 'black'"
+            class="priority-option-btn"
+          >Baja</div>
+
+          <div
+            (click)="nuevaTareaPrioridad = 'Media'"
+            [style.background]="nuevaTareaPrioridad === 'Media' ? '#1a1a1a' : 'white'"
+            [style.color]="nuevaTareaPrioridad === 'Media' ? 'white' : 'black'"
+            class="priority-option-btn"
+          >Media</div>
+
+          <div
+            (click)="nuevaTareaPrioridad = 'ALTA'"
+            [style.background]="nuevaTareaPrioridad === 'ALTA' ? '#1a1a1a' : 'white'"
+            [style.color]="nuevaTareaPrioridad === 'ALTA' ? 'white' : 'black'"
+            class="priority-option-btn"
+          >ALTA</div>
         </div>
       </div>
 
@@ -131,10 +240,11 @@
     </div>
   </div>
 
-  <div *ngIf="mostrarModalEliminar" class="modal-overlay" style="z-index: 99999;">
+  <div *ngIf="mostrarModalEliminar" class="modal-overlay modal-delete">
     <div class="modal-card">
       <h2 class="modal-title">CONFIRMAR</h2>
       <p class="modal-subtitle">¿Seguro que deseas eliminar esta tarea?</p>
+
       <div class="modal-buttons-row">
         <button (click)="cancelarEliminar()" class="btn-modal-cancel">CANCELAR</button>
         <button (click)="confirmarEliminar()" class="btn-modal-delete">ELIMINAR</button>
@@ -142,11 +252,15 @@
     </div>
   </div>
 
-  <div *ngIf="mostrarModalOffline" class="modal-overlay" style="z-index: 99999;">
+  <div *ngIf="mostrarModalOffline" class="modal-overlay modal-offline">
     <div class="modal-content-small">
       <h2 class="modal-title-small">ESTÁS DESCONECTADO</h2>
-      <p class="modal-text">Tus tareas se guardarán localmente y se sincronizarán al recuperar la conexión.</p>
+      <p class="modal-text">
+        Tus tareas se guardarán localmente y se sincronizarán al recuperar la conexión.
+      </p>
       <button (click)="cerrarModal()" class="btn-modal-dark">ENTENDIDO</button>
     </div>
   </div>
+
 </ion-content>
+
