@@ -1,7 +1,14 @@
-
 <ion-content [fullscreen]="true" style="--background: #f4f5f8; position: relative;">
 
   <div class="neo-header">
+    <div class="neo-logo">
+      <ion-icon name="cube" style="margin-right: 8px;"></ion-icon>
+      ProjectWizard
+    </div>
+
+    <h1 class="neo-title">Mis Tareas</h1>
+    <p class="neo-subtitle">Gestiona tus asignaciones personales</p>
+
     <div class="media-actions">
       <button type="button" class="media-action-btn camera-btn" (click)="abrirCamara()">
         <ion-icon name="camera-outline"></ion-icon>
@@ -12,14 +19,6 @@
         <ion-icon name="images-outline"></ion-icon>
         <span>Multimedia</span>
       </button>
-      <button
-  type="button"
-  class="media-action-btn audio-btn"
-  (click)="grabandoAudio ? detenerGrabacionAudio() : iniciarGrabacionAudio()"
->
-  <ion-icon [name]="grabandoAudio ? 'stop-circle-outline' : 'mic-outline'"></ion-icon>
-  <span>{{ grabandoAudio ? 'Detener audio' : 'Grabar audio' }}</span>
-</button>
     </div>
 
     <input
@@ -30,14 +29,6 @@
       hidden
       (change)="seleccionarMultimedia($event)"
     />
-
-    <div class="neo-logo">
-      <ion-icon name="cube" style="margin-right: 8px;"></ion-icon>
-      ProjectWizard
-    </div>
-
-    <h1 class="neo-title">Mis Tareas</h1>
-    <p class="neo-subtitle">Gestiona tus asignaciones personales</p>
   </div>
 
   <div class="alerts-wrapper">
@@ -83,7 +74,6 @@
 
     <div class="media-preview-container" *ngIf="multimediaSeleccionada.length > 0">
       <div class="media-preview-item" *ngFor="let media of multimediaSeleccionada">
-
         <img
           *ngIf="media.tipo === 'imagen'"
           [src]="media.url"
@@ -128,20 +118,45 @@
             class="task-checkbox"
           />
 
-          <span
-            [style.text-decoration]="item.completada ? 'line-through' : 'none'"
-            [style.color]="item.completada ? '#888' : 'black'"
-            class="task-title"
-          >
-            {{ item.texto }}
-          </span>
+          <div class="task-text-audio-wrapper">
+            <span
+              [style.text-decoration]="item.completada ? 'line-through' : 'none'"
+              [style.color]="item.completada ? '#888' : 'black'"
+              class="task-title"
+            >
+              {{ item.texto }}
+            </span>
+            <div *ngIf="item.audioGuia" class="audio-player-row" (click)="$event.stopPropagation()">
+              <audio [src]="item.audioGuia" controls class="task-audio-element"></audio>
+              <button 
+                type="button" 
+                class="audio-remove-btn" 
+                (click)="eliminarAudioGuia(item.id, $event)"
+                title="Eliminar audio guía"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
         </div>
+        <div class="task-actions-right">
+          <button 
+            type="button" 
+            class="task-mic-btn"
+            [style.background]="audioGrabandoId === item.id ? '#ff6b6b' : '#ffdf70'"
+            (click)="toggleGrabacionAudioTarea(item.id); $event.stopPropagation()"
+            title="Grabar guía de audio"
+          >
+            <ion-icon [name]="audioGrabandoId === item.id ? 'stop-circle' : 'mic-outline'"></ion-icon>
+          </button>
 
-        <div
-          (click)="abrirModalEliminar(item.id, $event)"
-          class="task-delete-btn"
-        >
-          <span class="task-delete-icon">✕</span>
+          <div
+            (click)="abrirModalEliminar(item.id, $event)"
+            class="task-delete-btn"
+            title="Eliminar tarea"
+          >
+            <span class="task-delete-icon">✕</span>
+          </div>
         </div>
       </div>
 
@@ -263,4 +278,3 @@
   </div>
 
 </ion-content>
-
