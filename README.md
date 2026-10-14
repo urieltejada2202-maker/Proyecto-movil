@@ -29,6 +29,7 @@ npm install
 
 # 4. Iniciar el servidor de desarrollo
 ionic serve
+```
 
 ## Capturas de Pantalla de los Módulos
 <img width="329" height="717" alt="Inicio png" src="https://github.com/user-attachments/assets/a8d7a086-8021-4d7d-baf2-ebd95345a27a" />
