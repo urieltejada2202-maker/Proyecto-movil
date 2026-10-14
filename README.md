@@ -65,7 +65,8 @@ Módulo de Multimedia + Cámara (Darlenny Pimentel):
 
 ## Equipo de Desarrollo y Módulos Asignados
 
-Nombres: Uriel Tejada, Junior Gomez, Darlenny Pimentel.
-Matriculas: 100074352, 100077484, 100070231.
-Módulo Asignado: Uriel Tejada(Navegación + Noticias, Tareas + Interfaz, Conectividad +
-Mapa, Bluetooth/NFC + Perfil), Junior Gómez (Almacenamiento Local y Modo Offline), Darlenny Pimentel ( Multimedia + Cámara).
+| Nombre del Estudiante | Matrícula | Módulo Asignado |
+| :--- | :--- | :--- |
+| **Uriel Tejada Padilla** | 100074352 | Navegación + Noticias, Tareas + Interfaz, Conectividad + Mapa, Bluetooth/NFC + Perfil |
+| **Junior Gómez** | 100077484 | Almacenamiento Local y Modo Offline |
+| **Darlenny Pimentel** | 100070231 | Multimedia + Cámara |
