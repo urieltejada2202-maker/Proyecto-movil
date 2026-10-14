@@ -32,10 +32,27 @@ ionic serve
 ```
 
 ## Capturas de Pantalla de los Módulos
-<img width="329" height="717" alt="Inicio png" src="https://github.com/user-attachments/assets/a8d7a086-8021-4d7d-baf2-ebd95345a27a" />
+### 1. Pantalla de Inicio / Dashboard
+<img width="329" height="717" alt="Inicio png" src="https://github.com/user-attachments/assets/ade62fa0-5b1b-4990-8a4e-2ef0525ecd8d" />
+
+<br />
+
+### 2. Seccion de Noticias
 <img width="328" height="716" alt="Noticias png" src="https://github.com/user-attachments/assets/ac01174c-4ab4-4597-b8fe-cd040a8b5917" />
+
+<br />
+
+### 3. Mapa y Ubicacion
 <img width="330" height="718" alt="Mapa png" src="https://github.com/user-attachments/assets/c397891b-ab61-42ea-aa4e-ac9bec0350f9" />
+
+<br />
+
+### 4. Gestion de Tareas
 <img width="329" height="717" alt="Tareas png" src="https://github.com/user-attachments/assets/3d535d2a-5d79-4537-8b16-1cceabe18e4c" />
+
+<br />
+
+### 5. Tablero de Proyectos
 <img width="329" height="717" alt="Tablero png" src="https://github.com/user-attachments/assets/a77ecb84-b0a8-4fcf-bf06-12df202e0d63" />
 
 
